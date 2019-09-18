@@ -10,6 +10,8 @@ class ArticleList extends Component {
   get body() {
     const { toggleOpenItem, openItemId, articles } = this.props
     return articles.map((article) => (
+      
+      
       <li key={article.id}>
         <Article
           article={article}

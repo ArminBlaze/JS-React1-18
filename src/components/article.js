@@ -1,9 +1,17 @@
 import React, { PureComponent } from 'react'
+import CommentsList from 'components/CommentsList'
 
 class Article extends PureComponent {
   render() {
     console.log('---', 'rendering')
-    const { article, isOpen } = this.props
+    const { article, isOpen } = this.props;
+    const articleBody = (
+      <section>
+        {article.text}
+        <CommentsList comments={article.comments} />
+      </section>
+    )
+
     return (
       <div>
         <div>
@@ -12,7 +20,7 @@ class Article extends PureComponent {
             {isOpen ? 'close' : 'open'}
           </button>
         </div>
-        {isOpen && <section>{article.text}</section>}
+        {isOpen && articleBody}
       </div>
     )
   }
