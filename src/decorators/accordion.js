@@ -7,6 +7,12 @@ export default (OriginalComponent) =>
       openItemId: null
     }
 
+    
+    componentDidCatch(err) {
+      console.log('Accordeon');
+      console.log(err);
+    }
+
     toggleOpenItem = (openItemId) => {
       // if(openItemId === this.state.openItemId) {
       //   return this.setState({
@@ -18,7 +24,7 @@ export default (OriginalComponent) =>
       
       //более короткий вариант
       const id = (openItemId === this.state.openItemId) ? null : openItemId;
-      console.log(this.state);
+      // console.log(this.state);
       
 
       this.setState({

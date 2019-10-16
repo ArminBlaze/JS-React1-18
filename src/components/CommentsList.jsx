@@ -7,6 +7,11 @@ import accordion from '../decorators/accordion'
 
 class CommentsList extends Component {
 
+  componentDidCatch(err) {
+    console.log('CommentsList');
+    console.log(err);
+  }
+
   render() {
     const isOpen = this.props.openItemId;
     const comments = this.props.comments;

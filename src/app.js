@@ -21,7 +21,7 @@ class App extends Component {
   }
 
   setArticleListRef = (ref) => {
-    console.log('---', ref, findDOMNode(ref))
+    // console.log('---', ref, findDOMNode(ref))
     /*
         setTimeout(() => {
             ref.toggleOpenItem(articles[0].id)
