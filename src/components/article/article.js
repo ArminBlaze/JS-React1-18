@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
-import CommentsList from 'components/CommentsList'
-// import CSSTransition from 'react-addons-css-transition-group';
+import CommentsList from 'components/CommentsList/CommentsList'
 import CSSTransition from 'react-addons-css-transition-group';
 
 import './article.css';
@@ -16,6 +15,7 @@ class Article extends PureComponent {
   render() {
     // console.log('---', 'rendering')
     const { article, isOpen } = this.props;
+    
     const articleBody = (
       <section className='test__article__body'>
         {article.text}
