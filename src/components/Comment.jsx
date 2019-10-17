@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 
 class Comment extends PureComponent {
   render() {
-    console.log('---', 'rendering')
     const { text, user } = this.props;
 
     return (
