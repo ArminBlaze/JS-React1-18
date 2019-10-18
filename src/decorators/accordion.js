@@ -4,7 +4,7 @@ import React from 'react'
 export default (OriginalComponent) =>
   class DecoratedComponent extends React.Component {
     state = {
-      openItemId: null
+      openItemId: ''
     }
 
     
@@ -23,7 +23,7 @@ export default (OriginalComponent) =>
       // this.setState({ openItemId })
       
       //более короткий вариант
-      const id = (openItemId === this.state.openItemId) ? null : openItemId;
+      const id = (openItemId === this.state.openItemId) ? '' : openItemId;
       // console.log(this.state);
       
 

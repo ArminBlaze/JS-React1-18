@@ -1,10 +1,22 @@
 import React, { PureComponent } from 'react'
 import CommentsList from 'components/CommentsList/CommentsList'
 import CSSTransition from 'react-addons-css-transition-group';
+import PropTypes from 'prop-types';
 
 import './article.css';
 
 class Article extends PureComponent {
+ 
+  static propTypes = {
+    isOpen: PropTypes.bool.isRequired,
+    
+    article: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+      comments: PropTypes.array,
+    }),
+  }
 
   componentDidCatch(err) {
     console.log('Article');

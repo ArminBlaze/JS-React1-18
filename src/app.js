@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { findDOMNode } from 'react-dom'
+// import { findDOMNode } from 'react-dom'
 import ArticleList from './components/article-list'
 import ArticlesChart from './components/articles-chart'
 import articles from './fixtures'

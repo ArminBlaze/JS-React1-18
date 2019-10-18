@@ -2,10 +2,22 @@ import React, { Component } from 'react'
 import Comment from 'components/Comment'
 import accordion from '../../decorators/accordion'
 import CSSTransition from 'react-addons-css-transition-group';
+import PropTypes from 'prop-types';
 
 import './CommentsList.css';
 
 export class CommentsList extends Component {
+
+  static propTypes = {
+    openItemId: PropTypes.string.isRequired,
+    toggleOpenItem: PropTypes.func.isRequired,
+    
+    comments: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      user: PropTypes.string.isRequired,
+      text: PropTypes.string.isRequired,
+    }))
+  }
 
   componentDidCatch(err) {
     console.log('CommentsList');
@@ -64,7 +76,7 @@ export class CommentsList extends Component {
     )
   }
 
-  handleBtnClick = () => this.props.toggleOpenItem(1)
+  handleBtnClick = () => this.props.toggleOpenItem("opened")
 }
 
 const CommentsListWithAccordion = accordion(CommentsList)
