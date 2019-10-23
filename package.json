@@ -1,40 +1,41 @@
 {
-  "name": "basic-10-09",
+  "name": "jsru-react-1",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.5.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.10.2",
     "react-addons-css-transition-group": "^15.6.2",
-    "react-day-picker": "^7.3.2",
-    "react-dom": "^16.5.0",
+    "react-day-picker": "^7.4.0",
+    "react-dom": "^16.10.2",
     "react-redux": "^7.1.1",
-    "react-scripts": "1.1.5",
-    "react-select": "^2.0.0",
+    "react-scripts": "3.2.0",
+    "react-select": "^3.0.8",
     "redux": "^4.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "prettier": "prettier --write \"**/*.js\"",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
     "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.15.1",
-    "husky": "^1.0.0-rc.6",
-    "lint-staged": "^7.1.0",
-    "prettier": "^1.12.1"
-  },
-  "lint-staged": {
-    "*.js": [
-      "npm run prettier",
-      "git add"
-    ]
+    "enzyme-adapter-react-16": "^1.15.1"
   }
 }
