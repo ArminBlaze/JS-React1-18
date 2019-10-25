@@ -1,4 +1,4 @@
-import { DELETE_ARTICLE, INCREMENT } from 'constants'
+import { DELETE_ARTICLE, INCREMENT, SELECT_ARTICLE } from 'constants/index.js'
 
 export function increment() {
   return {
@@ -9,6 +9,13 @@ export function increment() {
 export function deleteArticle(id) {
   return {
     type: DELETE_ARTICLE,
+    payload: { id }
+  }
+}
+
+export function selectArticle(id) {
+  return {
+    type: SELECT_ARTICLE,
     payload: { id }
   }
 }
