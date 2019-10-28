@@ -11,7 +11,7 @@ export default (state, action) => {
       filteredData: defaultArticles,
       filters: {
         selected: '',
-        dateRange: '',
+        dateRange: null,
       }
     }
   }
@@ -35,7 +35,7 @@ export default (state, action) => {
       return {
         ...localState,
         filters: newFilters,
-        filteredData: filterArticles(oldData, newFilters)
+        // filteredData: filterArticles(oldData, newFilters)
       }
     }
 
@@ -45,7 +45,7 @@ export default (state, action) => {
       return {
         ...localState,
         filters: newFilters,
-        filteredData: filterArticles(oldData, newFilters)
+        // filteredData: filterArticles(oldData, newFilters)
       }
     }
     
@@ -56,21 +56,35 @@ export default (state, action) => {
 
 function generateFilters(oldFilters, selectedId, range) {
   return {
-    dateRange: (range) ? range : oldFilters.dateRange,
-    selected: (selectedId) ? selectedId : oldFilters.selected
+    dateRange: (range !== undefined) ? transformDate(range) : oldFilters.dateRange,
+    selected: (selectedId !== undefined) ? selectedId : oldFilters.selected
   }
 }
 
-// universalArticleUpdate(state, )
-function filterArticles(data, filters) {
+//дата с библиотеки DayPicker приходит почему-то с временем 12дня. Установим время на 00.00, чтобы дальше время было легче обрабатывать.
+function transformDate(range) {
+  debugger;
+  const from = range.from;
+  const to = range.to;
 
-  const {selected} = filters;
+  const newFrom = from && new Date(from.getFullYear(), from.getMonth(), from.getDate());
+  const newTo = to && new Date(to.getFullYear(), to.getMonth(), to.getDate())
 
-  if(!selected && !data) {
-    return data;
+  return {
+    from: newFrom,
+    to: newTo,
   }
-
-  let newData = data.filter((article) => article.id === selected)
-
-  return newData;
 }
+
+// function filterArticles(data, filters) {
+
+//   const {selected} = filters;
+
+//   if(!selected && !data) {
+//     return data;
+//   }
+
+//   let newData = data.filter((article) => article.id === selected)
+
+//   return newData;
+// }

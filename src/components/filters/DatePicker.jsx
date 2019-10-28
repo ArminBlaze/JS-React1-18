@@ -65,7 +65,7 @@ class DatePicker extends React.Component {
           selectedDays={[from, { from, to }]}
           modifiers={modifiers}
           onDayClick={this.handleDayClick}
-          month={new Date(2016, 6)}
+          month={new Date(2016, 5)}
         />
       </div>
     );

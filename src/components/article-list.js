@@ -9,6 +9,7 @@ export class ArticleList extends Component {
   static propTypes = {
     openItemId: PropTypes.string.isRequired,
     articles: PropTypes.array.isRequired,
+    filters: PropTypes.object.isRequired,
     toggleOpenItem: PropTypes.func.isRequired,
   }
 
@@ -17,8 +18,8 @@ export class ArticleList extends Component {
   }
 
   get body() {
-    const { toggleOpenItem, openItemId, articles } = this.props
-    return articles.map((article) => (
+    const { toggleOpenItem, openItemId } = this.props
+    return this.filteredArticles.map((article) => (
       
       
       <li key={article.id} className='test__articleList__item'>
@@ -35,10 +36,70 @@ export class ArticleList extends Component {
     const { fetchData } = this.props;
     fetchData && fetchData()
   }
+
+
+  get filteredArticles() {
+    const {articles, filters} = this.props;
+    const {selected, dateRange} = filters;
+
+    console.log(filters);
+    
+
+    if(!selected && !dateRange) {
+      return articles;
+    }
+
+    let newArticles;
+
+    if(selected) {
+      newArticles = articles.filter((article) => {
+
+        return article.id === selected
+      })
+    } else {
+      newArticles = articles.slice();
+    }
+    
+    if(dateRange) {
+      debugger;
+
+      newArticles = newArticles.filter((article) => {
+        //тут нужно вычленить дату у каждой статьи
+        let date = parseDate(article.date); //Объект даты
+        console.log(date);
+        console.log(+dateRange.from);
+
+        //а потом по ней сравнить попадает ли она в диапазон
+
+        if(dateRange.from && +date < +dateRange.from) {
+          return false;
+        }
+
+        if(dateRange.to && +date > +dateRange.to) {
+          return false;
+        }
+
+        return true;
+      })
+    }
+  
+
+    return newArticles;
+  }
+
 }
+
+
+function parseDate(date) {
+  const result = date.match(/(\d\d\d\d)-(\d\d)-(\d\d)/)
+
+  return new Date(+result[1], +result[2]-1, +result[3]);
+}
+
 
 const ArticleListWithAccordion = accordion(ArticleList)
 
 export default connect((state) => ({
-  articles: state.articles.filteredData
+  articles: state.articles.data,
+  filters: state.articles.filters
 }))(ArticleListWithAccordion)
