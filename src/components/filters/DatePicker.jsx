@@ -2,8 +2,10 @@ import React from 'react';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import './DatePicker.css';
+import { connect } from 'react-redux'
+import { selectDate } from 'store/actions/index.js'
 
-export default class DatePicker extends React.Component {
+class DatePicker extends React.Component {
   static defaultProps = {
     numberOfMonths: 1,
   };
@@ -13,6 +15,12 @@ export default class DatePicker extends React.Component {
     this.handleDayClick = this.handleDayClick.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
     this.state = this.getInitialState();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(prevState !== this.state) {
+      this.props.selectDate(this.state);
+    }
   }
 
   getInitialState() {
@@ -25,6 +33,8 @@ export default class DatePicker extends React.Component {
   handleDayClick(day) {
     const range = DateUtils.addDayToRange(day, this.state);
     this.setState(range);
+    console.dir(range);
+    
   }
 
   handleResetClick() {
@@ -55,8 +65,18 @@ export default class DatePicker extends React.Component {
           selectedDays={[from, { from, to }]}
           modifiers={modifiers}
           onDayClick={this.handleDayClick}
+          month={new Date(2016, 6)}
         />
       </div>
     );
   }
 }
+
+// const mapStateToProps = (state) => {
+
+//   return {
+//     articles: state.articles.data,
+//   }
+// };
+
+export default connect(null, {selectDate})(DatePicker);

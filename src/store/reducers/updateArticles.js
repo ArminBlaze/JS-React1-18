@@ -1,5 +1,6 @@
 import { DELETE_ARTICLE } from 'constants/index.js'
 import { SELECT_ARTICLE } from 'constants/index.js'
+import { SELECT_DATE } from 'constants/index.js'
 import defaultArticles from 'fixtures.js'
 
 export default (state, action) => {
@@ -10,7 +11,7 @@ export default (state, action) => {
       filteredData: defaultArticles,
       filters: {
         selected: '',
-        date: '',
+        dateRange: '',
       }
     }
   }
@@ -29,7 +30,17 @@ export default (state, action) => {
     }
 
     case SELECT_ARTICLE: {
-      const newFilters = generateFilters(oldFilters, payload.id)
+      const newFilters = generateFilters(oldFilters, payload)
+
+      return {
+        ...localState,
+        filters: newFilters,
+        filteredData: filterArticles(oldData, newFilters)
+      }
+    }
+
+    case SELECT_DATE: {
+      const newFilters = generateFilters(oldFilters, null, payload)
 
       return {
         ...localState,
@@ -43,16 +54,22 @@ export default (state, action) => {
   }
 }
 
-function generateFilters(oldFilters, selectedId, date) {
+function generateFilters(oldFilters, selectedId, range) {
   return {
-    date: (date) ? date : oldFilters.date,
+    dateRange: (range) ? range : oldFilters.dateRange,
     selected: (selectedId) ? selectedId : oldFilters.selected
   }
 }
 
 // universalArticleUpdate(state, )
 function filterArticles(data, filters) {
+
   const {selected} = filters;
+
+  if(!selected && !data) {
+    return data;
+  }
+
   let newData = data.filter((article) => article.id === selected)
 
   return newData;

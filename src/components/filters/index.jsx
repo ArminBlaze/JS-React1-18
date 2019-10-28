@@ -11,10 +11,13 @@ class Filters extends React.Component {
   }
 
   get options() {
-    return this.props.articles.map((article) => ({
-      label: article.title,
-      value: article.id
-    }))
+    let options = [{label: "All", value: ""}];
+
+    this.props.articles.forEach((article) => {
+      options.push({label: article.title, value: article.id})
+    });
+
+    return options;
   }
 
   handleSelect = (openItem) => {
