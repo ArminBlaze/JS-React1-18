@@ -3,8 +3,16 @@ import Select from 'react-select'
 import DatePicker from './DatePicker';
 import { connect } from 'react-redux'
 import { selectArticle } from 'store/actions/index.js'
+import PropTypes from 'prop-types';
+import './Select.css';
 
 class Filters extends React.Component {
+
+  static propTypes = {
+    articles: PropTypes.array.isRequired,
+    filters: PropTypes.object.isRequired,
+    selectArticle: PropTypes.func.isRequired,
+  }
 
   state = {
     openItem: null
@@ -25,17 +33,29 @@ class Filters extends React.Component {
     
     const { selectArticle } = this.props;
     selectArticle(openItem.value);
+    this.setState({ openItem })
+  }
+
+  handleReset = () => {
+    this.handleSelect({value: ""});
   }
 
   
   render() {
+
     return (
       <div>
-        <Select
-          options={this.options}
-          value={this.state.openItem}
-          onChange={this.handleSelect}
-        />
+        <div>
+          <Select
+            className='Filters__select'
+            options={this.options}
+            value={this.state.openItem}
+            onChange={this.handleSelect}
+          />
+          <button className="link" onClick={this.handleReset}>
+              Сброс
+          </button>
+        </div>
         <DatePicker />
       </div>
     )
@@ -47,6 +67,7 @@ const mapStateToProps = (state) => {
 
   return {
     articles: state.articles.data,
+    filters: state.articles.filters,
   }
 };
 
