@@ -61,13 +61,10 @@ export class ArticleList extends Component {
     }
     
     if(dateRange) {
-      debugger;
 
       newArticles = newArticles.filter((article) => {
         //тут нужно вычленить дату у каждой статьи
         let date = parseDate(article.date); //Объект даты
-        console.log(date);
-        console.log(+dateRange.from);
 
         //а потом по ней сравнить попадает ли она в диапазон
 
