@@ -8,7 +8,6 @@ export default (state, action) => {
     // return defaultArticles;
     return {
       data: defaultArticles,
-      filteredData: defaultArticles,
       filters: {
         selected: '',
         dateRange: null,
@@ -35,17 +34,15 @@ export default (state, action) => {
       return {
         ...localState,
         filters: newFilters,
-        // filteredData: filterArticles(oldData, newFilters)
       }
     }
 
     case SELECT_DATE: {
-      const newFilters = generateFilters(oldFilters, null, payload)
+      const newFilters = generateFilters(oldFilters, undefined, payload)
 
       return {
         ...localState,
         filters: newFilters,
-        // filteredData: filterArticles(oldData, newFilters)
       }
     }
     
@@ -57,13 +54,13 @@ export default (state, action) => {
 function generateFilters(oldFilters, selectedId, range) {
   return {
     dateRange: (range !== undefined) ? transformDate(range) : oldFilters.dateRange,
+
     selected: (selectedId !== undefined) ? selectedId : oldFilters.selected
   }
 }
 
 //дата с библиотеки DayPicker приходит почему-то с временем 12дня. Установим время на 00.00, чтобы дальше время было легче обрабатывать.
 function transformDate(range) {
-  debugger;
   const from = range.from;
   const to = range.to;
 
@@ -75,16 +72,3 @@ function transformDate(range) {
     to: newTo,
   }
 }
-
-// function filterArticles(data, filters) {
-
-//   const {selected} = filters;
-
-//   if(!selected && !data) {
-//     return data;
-//   }
-
-//   let newData = data.filter((article) => article.id === selected)
-
-//   return newData;
-// }
