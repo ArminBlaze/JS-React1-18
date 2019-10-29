@@ -10,7 +10,10 @@ export default (state, action) => {
       data: defaultArticles,
       filters: {
         selected: '',
-        dateRange: null,
+        dateRange: {
+          from: undefined,
+          to: undefined,
+        },
       }
     }
   }

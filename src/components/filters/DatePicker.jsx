@@ -14,16 +14,9 @@ class DatePicker extends React.Component {
     super(props);
     this.handleDayClick = this.handleDayClick.bind(this);
     this.handleResetClick = this.handleResetClick.bind(this);
-    this.state = this.getInitialState();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if(prevState !== this.state) {
-      this.props.selectDate(this.state);
-    }
-  }
-
-  getInitialState() {
+  getDefaultDate() {
     return {
       from: undefined,
       to: undefined,
@@ -31,16 +24,16 @@ class DatePicker extends React.Component {
   }
 
   handleDayClick(day) {
-    const range = DateUtils.addDayToRange(day, this.state);
-    this.setState(range);
+    const range = DateUtils.addDayToRange(day, this.props.range);
+    this.props.selectDate(range);
   }
 
   handleResetClick() {
-    this.setState(this.getInitialState());
+    this.props.selectDate(this.getDefaultDate());
   }
 
   render() {
-    const { from, to } = this.state;
+    const { from, to } = this.props.range;
     const modifiers = { start: from, end: to };
     return (
       <div className="RangeExample">
@@ -70,11 +63,11 @@ class DatePicker extends React.Component {
   }
 }
 
-// const mapStateToProps = (state) => {
+const mapStateToProps = (state) => {
 
-//   return {
-//     articles: state.articles.data,
-//   }
-// };
+  return {
+    range: state.articles.filters.dateRange,
+  }
+};
 
-export default connect(null, {selectDate})(DatePicker);
+export default connect(mapStateToProps, {selectDate})(DatePicker);
