@@ -1,11 +1,12 @@
 import { SELECT_ARTICLE } from 'constants/index.js'
 import { SELECT_DATE } from 'constants/index.js'
+import { DELETE_ARTICLE } from 'constants/index.js'
 
 export default (state, action) => {
   if (state === undefined) {
     // return defaultArticles;
     return {
-      selected: '',
+      selected: null,
       dateRange: {
         from: undefined,
         to: undefined,
@@ -35,14 +36,21 @@ export default (state, action) => {
         dateRange: newDateRange,
       }
     }
+
+    case DELETE_ARTICLE: {
+      return {
+        ...oldFilters,
+        selected: (payload.id === oldFilters.selected.value) ? null : oldFilters.selected,
+      }
+    }
     
     default: 
       return oldFilters;
   }
 }
 
-function generateSelected(oldFilters, selectedId) {
-  return (selectedId !== undefined) ? selectedId : oldFilters.selected
+function generateSelected(oldFilters, selected) {
+  return (selected !== undefined) ? selected : oldFilters.selected
 }
 
 function generateDate(oldFilters, range) {

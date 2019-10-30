@@ -10,12 +10,8 @@ class Filters extends React.Component {
 
   static propTypes = {
     articles: PropTypes.array.isRequired,
-    filters: PropTypes.object.isRequired,
+    selected: PropTypes.object,
     selectArticle: PropTypes.func.isRequired,
-  }
-
-  state = {
-    openItem: null
   }
 
   get options() {
@@ -29,15 +25,12 @@ class Filters extends React.Component {
   }
 
   handleSelect = (openItem) => {
-    console.log(openItem);
-    
     const { selectArticle } = this.props;
-    selectArticle(openItem.value);
-    this.setState({ openItem })
+    selectArticle(openItem);
   }
 
   handleReset = () => {
-    this.handleSelect({value: ""});
+    this.handleSelect(null);
   }
 
   
@@ -49,7 +42,7 @@ class Filters extends React.Component {
           <Select
             className='Filters__select'
             options={this.options}
-            value={this.state.openItem}
+            value={this.props.selected}
             onChange={this.handleSelect}
           />
           <button className="link" onClick={this.handleReset}>
@@ -67,7 +60,7 @@ const mapStateToProps = (state) => {
 
   return {
     articles: state.articles,
-    filters: state.filters,
+    selected: state.filters.selected,
   }
 };
 

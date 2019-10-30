@@ -53,7 +53,7 @@ export class ArticleList extends Component {
 
     if(selected) {
       newArticles = articles.filter((article) => {
-        return article.id === selected
+        return article.id === selected.value
       })
     } else {
       newArticles = articles.slice();
@@ -63,9 +63,9 @@ export class ArticleList extends Component {
       newArticles = newArticles.filter((article) => {
         //тут нужно вычленить дату у каждой статьи
         let date = parseDate(article.date); //Объект даты
-        let date2 = Date.parse(article.date);
-        console.log(+date);
-        console.log(date2);
+        // let date2 = Date.parse(article.date);
+        // console.log(+date);
+        // console.log(date2);
         
 
         //а потом по ней сравнить попадает ли она в диапазон
