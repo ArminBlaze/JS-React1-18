@@ -66,8 +66,8 @@ class Filters extends React.Component {
 const mapStateToProps = (state) => {
 
   return {
-    articles: state.articles.data,
-    filters: state.articles.filters,
+    articles: state.articles,
+    filters: state.filters,
   }
 };
 

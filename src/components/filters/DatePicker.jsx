@@ -66,7 +66,7 @@ class DatePicker extends React.Component {
 const mapStateToProps = (state) => {
 
   return {
-    range: state.articles.filters.dateRange,
+    range: state.filters.dateRange,
   }
 };
 

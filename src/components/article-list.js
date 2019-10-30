@@ -53,7 +53,6 @@ export class ArticleList extends Component {
 
     if(selected) {
       newArticles = articles.filter((article) => {
-
         return article.id === selected
       })
     } else {
@@ -61,13 +60,15 @@ export class ArticleList extends Component {
     }
     
     if(dateRange) {
-
       newArticles = newArticles.filter((article) => {
         //тут нужно вычленить дату у каждой статьи
         let date = parseDate(article.date); //Объект даты
+        let date2 = Date.parse(article.date);
+        console.log(+date);
+        console.log(date2);
+        
 
         //а потом по ней сравнить попадает ли она в диапазон
-
         if(dateRange.from && +date < +dateRange.from) {
           return false;
         }
@@ -97,6 +98,6 @@ function parseDate(date) {
 const ArticleListWithAccordion = accordion(ArticleList)
 
 export default connect((state) => ({
-  articles: state.articles.data,
-  filters: state.articles.filters
+  articles: state.articles,
+  filters: state.filters
 }))(ArticleListWithAccordion)
