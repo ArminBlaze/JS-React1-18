@@ -4,8 +4,6 @@ import React, { Component } from 'react';
 import CSSTransition from 'react-addons-css-transition-group';
 import accordion from '../../decorators/accordion';
 import './CommentsList.css';
-import { connect } from 'react-redux'
-import { commentsSelector, createCommentsSelector } from 'selectors';
 
 
 export class CommentsList extends Component {
@@ -14,11 +12,7 @@ export class CommentsList extends Component {
     openItemId: PropTypes.string.isRequired,
     toggleOpenItem: PropTypes.func.isRequired,
     
-    comments: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      user: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-    }))
+    comments: PropTypes.arrayOf(PropTypes.string)
   }
 
   componentDidCatch(err) {
@@ -29,7 +23,7 @@ export class CommentsList extends Component {
   render() {
     const isOpen = this.props.openItemId;
     
-    const comments = this.props.comments;
+    const comments = this.props.ids;
 
     if(!comments) return (
       <div>
@@ -59,17 +53,16 @@ export class CommentsList extends Component {
   }
 
   get body() {
-    const { comments } = this.props;
+    
+    const { ids } = this.props;
 
     return (
       <ul>
         {
-          comments.map((comment) => (
+          ids.map((id) => (
             
-            <li key={comment.id} className='test__commentsList__item'>
-              <Comment
-                text={comment.text}
-                user={comment.user}
+            <li key={id} className='test__commentsList__item'>
+              <Comment id={id}
               />
             </li>
           ))
@@ -84,17 +77,13 @@ export class CommentsList extends Component {
 
 const CommentsListWithAccordion = accordion(CommentsList)
 
-const createMapStateToProps = () => (state, ownProps) => {
-  const commentsSelector = createCommentsSelector();
+// const createMapStateToProps = () => (state, ownProps) => {
+//   const commentsSelector = createCommentsSelector();
   
-  return {
-    comments: commentsSelector( state, ownProps )
-  };
-}
+//   return {
+//     comments: commentsSelector( state, ownProps )
+//   };
+// }
 
-// const mapStateToProps = (state, ownProps) => ({
-//   comments: createCommentsSelector(state, ownProps),
-// });
-
-export default connect(createMapStateToProps)(CommentsListWithAccordion)
+export default CommentsListWithAccordion;
 

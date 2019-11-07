@@ -29,8 +29,6 @@ export const filterArticles = createSelector(
   articlesSelector,
   (dateRange, selected, articles) => {
 
-    console.log(selected, dateRange);
-
     if(!selected && !dateRange) {
       return articles;
     }
@@ -49,10 +47,6 @@ export const filterArticles = createSelector(
       newArticles = newArticles.filter((article) => {
         //тут нужно вычленить дату у каждой статьи
         let date = Date.parse(article.date);
-        let date2 = parseDate(article.date); //Объект даты
-        console.log(date);
-        console.log(date2);
-        
 
         //а потом по ней сравнить попадает ли она в диапазон
         if(dateRange.from && +date < +dateRange.from) {
@@ -83,15 +77,7 @@ export const createCommentsSelector = () =>
   createSelector(commentsSelector, idsSelector, (comments, ids) => {
     console.log('---', 'comment selector', ids)
 
-    //для каждого коммента нужно получить id и вернуть массив комментов?
     return ids.map((id) => {
       return comments[id]
     })
   })
-
-
-function parseDate(date) {
-  const result = date.match(/(\d\d\d\d)-(\d\d)-(\d\d)/)
-
-  return new Date(+result[1], +result[2]-1, +result[3]);
-}

@@ -33,7 +33,7 @@ class Article extends PureComponent {
     const articleBody = (
       <section className='test__article__body'>
         {article.text}
-        <CommentsList comments={article.comments}/>
+        <CommentsList ids={article.comments}/>
       </section>
     )
 

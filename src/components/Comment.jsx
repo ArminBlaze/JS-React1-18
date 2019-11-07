@@ -1,16 +1,21 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
+import { createCommentSelector } from 'selectors';
+
 
 class Comment extends PureComponent {
 
   static propTypes = {
-    text: PropTypes.string.isRequired,
-    user: PropTypes.string.isRequired,
+    comment: PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      user: PropTypes.string.isRequired
+    }).isRequired
   }
 
 
   render() {
-    const { text, user } = this.props;
+    const { text, user } = this.props.comment;
 
     return (
       <div>
@@ -26,4 +31,12 @@ class Comment extends PureComponent {
 
 }
 
-export default Comment
+const createMapStateToProps = () => (state, ownProps) => {
+  const commentSelector = createCommentSelector();
+  
+  return {
+    comment: commentSelector( state, ownProps )
+  };
+}
+
+export default connect(createMapStateToProps)(Comment)
