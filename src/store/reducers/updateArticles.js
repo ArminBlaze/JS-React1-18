@@ -1,5 +1,5 @@
 import { DELETE_ARTICLE } from 'constants/index.js'
-import defaultArticles from 'fixtures.js'
+import { normalizedArticles as defaultArticles } from 'fixtures.js'
 import { articlesSelector } from 'selectors';
 
 export default (state, action) => {

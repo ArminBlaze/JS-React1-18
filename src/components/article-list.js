@@ -38,13 +38,6 @@ export class ArticleList extends Component {
 }
 
 
-// function parseDate(date) {
-//   const result = date.match(/(\d\d\d\d)-(\d\d)-(\d\d)/)
-
-//   return new Date(+result[1], +result[2]-1, +result[3]);
-// }
-
-
 const ArticleListWithAccordion = accordion(ArticleList)
 
 export default connect((state) => ({

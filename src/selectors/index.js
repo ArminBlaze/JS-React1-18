@@ -6,6 +6,21 @@ export const dateRangeSelector = state => state.filters.dateRange;
 export const selectedSelector = state => state.filters.selected;
 export const articlesSelector = state => state.articles;
 export const counterSelector = state => state.counter;
+export const commentsSelector = state => state.comments;
+// export const idSelector = (_, props) => props.id;
+export const idSelector = (_, props) => {
+  console.log(props);
+  
+  return props.id;
+}
+
+export const idsSelector = (_, props) => {
+  console.log(props);
+  
+  return props.comments;
+}
+
+
 
 
 export const filterArticles = createSelector(
@@ -56,6 +71,23 @@ export const filterArticles = createSelector(
     return newArticles;
 
 })
+
+
+export const createCommentSelector = () =>
+  createSelector(commentsSelector, idSelector, (comments, id) => {
+    console.log('---', 'comment selector', id)
+    return comments[id]
+  })
+
+export const createCommentsSelector = () =>
+  createSelector(commentsSelector, idsSelector, (comments, ids) => {
+    console.log('---', 'comment selector', ids)
+
+    //для каждого коммента нужно получить id и вернуть массив комментов?
+    return ids.map((id) => {
+      return comments[id]
+    })
+  })
 
 
 function parseDate(date) {

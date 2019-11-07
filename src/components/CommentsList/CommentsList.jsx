@@ -1,10 +1,12 @@
-import React, { Component } from 'react'
-import Comment from 'components/Comment'
-import accordion from '../../decorators/accordion'
-import CSSTransition from 'react-addons-css-transition-group';
+import Comment from 'components/Comment';
 import PropTypes from 'prop-types';
-
+import React, { Component } from 'react';
+import CSSTransition from 'react-addons-css-transition-group';
+import accordion from '../../decorators/accordion';
 import './CommentsList.css';
+import { connect } from 'react-redux'
+import { commentsSelector, createCommentsSelector } from 'selectors';
+
 
 export class CommentsList extends Component {
 
@@ -79,6 +81,20 @@ export class CommentsList extends Component {
   handleBtnClick = () => this.props.toggleOpenItem("opened")
 }
 
+
 const CommentsListWithAccordion = accordion(CommentsList)
 
-export default CommentsListWithAccordion
+const createMapStateToProps = () => (state, ownProps) => {
+  const commentsSelector = createCommentsSelector();
+  
+  return {
+    comments: commentsSelector( state, ownProps )
+  };
+}
+
+// const mapStateToProps = (state, ownProps) => ({
+//   comments: createCommentsSelector(state, ownProps),
+// });
+
+export default connect(createMapStateToProps)(CommentsListWithAccordion)
+
