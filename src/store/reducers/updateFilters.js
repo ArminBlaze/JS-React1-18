@@ -58,13 +58,17 @@ function generateDate(oldFilters, range) {
   return (range !== undefined) ? transformDate(range) : oldFilters.dateRange
 }
 
-//дата с библиотеки DayPicker приходит почему-то с временем 12дня. Установим время на 00.00, чтобы дальше время было легче обрабатывать.
+//дата с библиотеки DayPicker приходит почему-то с временем 12дня.
+//Установим время from на 00.00, чтобы дальше время было легче обрабатывать.
+//А время to на 23.59.59.
 function transformDate(range) {
   const from = range.from;
   const to = range.to;
 
   const newFrom = from && new Date(from.getFullYear(), from.getMonth(), from.getDate());
-  const newTo = to && new Date(to.getFullYear(), to.getMonth(), to.getDate())
+  const newTo = to && new Date(to.getFullYear(), to.getMonth(), to.getDate()+1)
+  if(newTo) newTo.setSeconds(-1)
+ 
 
   return {
     from: newFrom,

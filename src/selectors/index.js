@@ -13,8 +13,6 @@ export const filterArticles = createSelector(
   selectedSelector,
   articlesSelector,
   (dateRange, selected, articles) => {
-    // const {articles, filters} = state;
-    // const {selected, dateRange} = filters;
 
     console.log(selected, dateRange);
 
@@ -35,10 +33,10 @@ export const filterArticles = createSelector(
     if(dateRange) {
       newArticles = newArticles.filter((article) => {
         //тут нужно вычленить дату у каждой статьи
-        // let date = parseDate(article.date); //Объект даты
         let date = Date.parse(article.date);
-        // console.log(+date);
-        // console.log(date2);
+        let date2 = parseDate(article.date); //Объект даты
+        console.log(date);
+        console.log(date2);
         
 
         //а потом по ней сравнить попадает ли она в диапазон
@@ -58,3 +56,10 @@ export const filterArticles = createSelector(
     return newArticles;
 
 })
+
+
+function parseDate(date) {
+  const result = date.match(/(\d\d\d\d)-(\d\d)-(\d\d)/)
+
+  return new Date(+result[1], +result[2]-1, +result[3]);
+}
