@@ -41,7 +41,7 @@ export default (state, action) => {
     case DELETE_ARTICLE: {
       return {
         ...oldFilters,
-        selected: (payload.id === oldFilters.selected.value) ? null : oldFilters.selected,
+        selected: (oldFilters.selected && payload.id === oldFilters.selected.value) ? null : oldFilters.selected,
       }
     }
     
