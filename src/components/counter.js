@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { increment } from 'store/actions'
+import { counterSelector } from 'selectors';
 
 class Counter extends Component {
   static propTypes = {
@@ -20,8 +21,8 @@ class Counter extends Component {
   }
 }
 
-const mapStateToProps = (storeState) => ({
-  number: storeState.counter
+const mapStateToProps = (store) => ({
+  number: counterSelector(store)
 })
 
 const mapDispatchToProps = {

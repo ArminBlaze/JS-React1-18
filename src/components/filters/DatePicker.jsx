@@ -4,6 +4,7 @@ import 'react-day-picker/lib/style.css';
 import './DatePicker.css';
 import { connect } from 'react-redux'
 import { selectDate } from 'store/actions/index.js'
+import { dateRangeSelector } from 'selectors';
 
 class DatePicker extends React.Component {
   static defaultProps = {
@@ -66,7 +67,7 @@ class DatePicker extends React.Component {
 const mapStateToProps = (state) => {
 
   return {
-    range: state.filters.dateRange,
+    range: dateRangeSelector(state),
   }
 };
 
