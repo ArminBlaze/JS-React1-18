@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
-// import { findDOMNode } from 'react-dom'
-import ArticleList from './components/article-list'
-// import ArticlesChart from './components/articles-chart'
-import UserForm from './components/user-form'
 import Filters from 'components/filters';
+import React, { Component } from 'react';
+// import { findDOMNode } from 'react-dom'
+import ArticleList from './components/article-list';
+// import ArticlesChart from './components/articles-chart'
+import UserForm from './components/user-form';
+import Counter from 'components/counter'
 
 
 class App extends Component {
@@ -12,6 +13,7 @@ class App extends Component {
     return (
       <div>
         <UserForm />
+        <Counter />
         <Filters />
         <ArticleList />
         {/* <ArticlesChart articles={articles} /> */}

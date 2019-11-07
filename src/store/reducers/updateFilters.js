@@ -1,6 +1,7 @@
 import { SELECT_ARTICLE } from 'constants/index.js'
 import { SELECT_DATE } from 'constants/index.js'
 import { DELETE_ARTICLE } from 'constants/index.js'
+import { filtersSelector } from 'selectors';
 
 export default (state, action) => {
   if (state === undefined) {
@@ -14,7 +15,7 @@ export default (state, action) => {
     }
   }
 
-  const oldFilters = state.filters;
+  const oldFilters = filtersSelector(state);
   const { type, payload } = action;
 
   switch (type) {

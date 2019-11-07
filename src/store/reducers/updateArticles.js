@@ -1,5 +1,6 @@
 import { DELETE_ARTICLE } from 'constants/index.js'
 import defaultArticles from 'fixtures.js'
+import { articlesSelector } from 'selectors';
 
 export default (state, action) => {
   if (state === undefined) {
@@ -7,7 +8,7 @@ export default (state, action) => {
     return defaultArticles
   }
 
-  const localState = state.articles;
+  const localState = articlesSelector(state);
   const { type, payload } = action;
 
   switch (type) {
