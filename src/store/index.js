@@ -1,5 +1,6 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import logger from './middlewares/logger';
+import commentIdGenerator from './middlewares/commentIdGenerator';
 	
 import reducer from './reducers';
 
@@ -13,7 +14,7 @@ window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
   }) : compose;
 
 const enhancer = composeEnhancers(
-applyMiddleware(logger),
+applyMiddleware(logger, commentIdGenerator),
 // other store enhancers if any
 );
 	

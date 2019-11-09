@@ -21,12 +21,18 @@ export const idsSelector = (_, props) => {
 }
 
 
-
+export const arrayOfArticles = createSelector(
+  articlesSelector,
+  (articlesObj) => {
+    const articlesArr = Object.values(articlesObj);
+    console.log(articlesArr);
+    return articlesArr;
+  });
 
 export const filterArticles = createSelector(
   dateRangeSelector,
   selectedSelector,
-  articlesSelector,
+  arrayOfArticles,
   (dateRange, selected, articles) => {
 
     if(!selected && !dateRange) {

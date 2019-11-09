@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { selectArticle } from 'store/actions/index.js'
 import PropTypes from 'prop-types';
 import './Select.css';
-import { articlesSelector, selectedSelector } from 'selectors';
+import { arrayOfArticles, selectedSelector } from 'selectors';
 
 class Filters extends React.Component {
 
@@ -60,7 +60,7 @@ class Filters extends React.Component {
 const mapStateToProps = (state) => {
 
   return {
-    articles: articlesSelector(state),
+    articles: arrayOfArticles(state),
     selected: selectedSelector(state),
   }
 };

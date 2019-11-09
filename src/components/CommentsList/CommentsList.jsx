@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import CSSTransition from 'react-addons-css-transition-group';
 import accordion from '../../decorators/accordion';
 import './CommentsList.css';
+import CommentForm from 'components/CommentForm/CommentForm'
 
 
 export class CommentsList extends Component {
@@ -23,16 +24,22 @@ export class CommentsList extends Component {
   render() {
     const isOpen = this.props.openItemId;
     
-    const comments = this.props.ids;
+    const {article} = this.props;
+    
+    const {comments} = article;
+
+    const commentForm = <CommentForm articleId={article.id}/>;
 
     if(!comments) return (
       <div>
+        {commentForm}
         <button className='test__commentsList__btn' disabled>Комментариев нет</button>
       </div>
       )
 
     return (
       <div>
+        {commentForm}
         <button 
           onClick={this.handleBtnClick}
           className='test__commentsList__btn'
@@ -54,7 +61,10 @@ export class CommentsList extends Component {
 
   get body() {
     
-    const { ids } = this.props;
+    const { article } = this.props;
+    console.log(article);
+    
+    const ids = article.comments;
 
     return (
       <ul>
@@ -76,14 +86,6 @@ export class CommentsList extends Component {
 
 
 const CommentsListWithAccordion = accordion(CommentsList)
-
-// const createMapStateToProps = () => (state, ownProps) => {
-//   const commentsSelector = createCommentsSelector();
-  
-//   return {
-//     comments: commentsSelector( state, ownProps )
-//   };
-// }
 
 export default CommentsListWithAccordion;
 

@@ -1,4 +1,4 @@
-import { DELETE_ARTICLE, INCREMENT, SELECT_ARTICLE, SELECT_DATE } from 'constants/index.js'
+import { DELETE_ARTICLE, INCREMENT, SELECT_ARTICLE, SELECT_DATE, ADD_COMMENT } from 'constants/index.js'
 
 export function increment() {
   return {
@@ -24,5 +24,12 @@ export function selectDate(range) {
   return {
     type: SELECT_DATE,
     payload: range
+  }
+}
+
+export function addComment(comment) {
+  return {
+    type: ADD_COMMENT,
+    payload: comment 
   }
 }

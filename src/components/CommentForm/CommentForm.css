@@ -1,0 +1,17 @@
+.CommentForm__wrapper {
+  /* box-shadow: 0px 0px 5px rgba(0,0,0, 0.5); */
+  padding: 10px 10px;
+  margin-bottom: 30px;
+}
+
+/* .CommentForm {
+  
+} */
+
+.CommentForm label {
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
