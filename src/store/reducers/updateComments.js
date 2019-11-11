@@ -34,7 +34,8 @@ export default (state, action) => {
       const newCommentObj = {};
       newCommentObj[newComment.id] = newComment;
       
-      return Object.assign( {}, commentsState, newCommentObj)
+      // return Object.assign( {}, commentsState, newCommentObj)
+      return {...commentsState, ...newCommentObj}
     }
 
     default:
