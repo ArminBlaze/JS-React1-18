@@ -14,7 +14,7 @@ window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
   }) : compose;
 
 const enhancer = composeEnhancers(
-applyMiddleware(logger, commentIdGenerator),
+applyMiddleware(commentIdGenerator, logger),
 // other store enhancers if any
 );
 	
