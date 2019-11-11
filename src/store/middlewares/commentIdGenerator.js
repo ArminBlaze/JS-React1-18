@@ -1,9 +1,15 @@
+import { ADD_COMMENT } from 'constants/index.js'
+
 
 //{id, user, text}
 export default	(store) => (next) => (action) => {
-  console.log('Вызываю action: ', action)
-  
+  if(action.type !== ADD_COMMENT) {
+    next(action);
+    return;
+  }
 
+  console.log('Буду генерировать ID: ', action)
+  
   const comment = action.payload;
   const commentId = generateId(comment.articleId);
   console.log(commentId);
