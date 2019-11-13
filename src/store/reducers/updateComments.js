@@ -21,7 +21,7 @@ export default (state, action) => {
 
   switch (type) {
     case ADD_COMMENT: {
-      //тут код добавления к в объект комментов
+      //тут код добавления в объект комментов
       // id: {коммент}
       const rawComment = action.payload;
 
@@ -31,11 +31,10 @@ export default (state, action) => {
         text: rawComment.text
       }
 
-      const newCommentObj = {};
-      newCommentObj[newComment.id] = newComment;
-      
-      // return Object.assign( {}, commentsState, newCommentObj)
-      return {...commentsState, ...newCommentObj}
+      return {
+        ...commentsState,
+        [rawComment.id]: newComment
+      }
     }
 
     default:
