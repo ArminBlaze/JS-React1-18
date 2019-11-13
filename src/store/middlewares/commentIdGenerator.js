@@ -11,7 +11,7 @@ export default	(store) => (next) => (action) => {
   console.log('Буду генерировать ID: ', action)
   
   const comment = action.payload;
-  const commentId = generateId(comment.articleId);
+  const commentId = generateId();
   console.log(commentId);
 
   comment.id = commentId;
@@ -23,6 +23,6 @@ export default	(store) => (next) => (action) => {
 // Math.random should be unique because of its seeding algorithm.
 // Convert it to base 36 (numbers + letters), and grab the first 9 characters
 // after the decimal.
-function generateId(base) {
-  return base + "#" + Math.random().toString(36).substr(2, 9); 
+function generateId() {
+  return Date.now().toString(36) + "#" + Math.random().toString(36).substr(2, 9); 
 }
