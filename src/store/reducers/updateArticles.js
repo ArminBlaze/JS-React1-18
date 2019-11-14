@@ -9,16 +9,17 @@ const defaultArticles = normalizedArticles.reduce(
 
 export default (state, action) => {
   if (state === undefined) {
-    // return defaultArticles;
     return defaultArticles
   }
 
-  const localState = articlesSelector(state);
+  const articlesState = articlesSelector(state);
   const { type, payload } = action;
 
   switch (type) {
     case DELETE_ARTICLE: {
-      return localState.filter((article) => article.id !== payload.id)
+      const articlesCopy = {...articlesState};
+      delete articlesCopy[payload.id];
+      return articlesCopy;
     }
 
     case ADD_COMMENT: {
@@ -27,7 +28,7 @@ export default (state, action) => {
       const articleId = rawComment.articleId;
       const commentId = rawComment.id;
 
-      const oldArticle = localState[articleId];
+      const oldArticle = articlesState[articleId];
       const newArticle = {...oldArticle};
 
       const oldComments = oldArticle.comments;
@@ -40,10 +41,10 @@ export default (state, action) => {
       newState[articleId] = newArticle;
 
       //взять старую статью. Её клонировать и записать в новый стате.
-      return Object.assign( {}, localState, newState)
+      return Object.assign( {}, articlesState, newState)
     }
 
     default: 
-      return localState;
+      return articlesState;
   }
 }
