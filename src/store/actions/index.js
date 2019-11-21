@@ -30,6 +30,7 @@ export function selectDate(range) {
 export function addComment(comment) {
   return {
     type: ADD_COMMENT,
+    generateId: true,
     payload: comment 
   }
 }
