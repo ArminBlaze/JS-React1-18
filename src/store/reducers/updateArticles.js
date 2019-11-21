@@ -12,22 +12,23 @@ export default (state, action) => {
     return defaultArticles
   }
 
-  const articlesState = articlesSelector(state);
+  const oldArticlesState = articlesSelector(state);
   const { type, payload } = action;
 
   switch (type) {
     case DELETE_ARTICLE: {
-      const articlesCopy = {...articlesState};
+      const articlesCopy = {...oldArticlesState};
       delete articlesCopy[payload.id];
       return articlesCopy;
     }
 
     case ADD_COMMENT: {
       //тут код добавления к статье коммента
+      //важно, чтобы все объекты копировались, а не изменялись по ссылке (иммутабельность)
       const articleId = action.payload.articleId;
       const commentId = action.payload.id;
 
-      const oldArticle = articlesState[articleId];
+      const oldArticle = oldArticlesState[articleId];
 
       const newArticle = {
         ...oldArticle,
@@ -35,12 +36,12 @@ export default (state, action) => {
       };
 
       return {
-        ...articlesState,
+        ...oldArticlesState,
         [articleId]: newArticle
       }
     }
 
     default: 
-      return articlesState;
+      return oldArticlesState;
   }
 }

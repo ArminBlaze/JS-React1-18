@@ -72,18 +72,19 @@ export const filterArticles = createSelector(
 
 })
 
-
+//на входе 1 id > получаем один комментарий
 export const createCommentSelector = () =>
   createSelector(commentsSelector, idSelector, (comments, id) => {
     console.log('---', 'comment selector', id)
     return comments[id]
   })
 
-export const createCommentsSelector = () =>
-  createSelector(commentsSelector, idsSelector, (comments, ids) => {
-    console.log('---', 'comment selector', ids)
+//на входе массив id > получаем массив комментариев по этим id
+// export const createCommentsSelector = () =>
+//   createSelector(commentsSelector, idsSelector, (comments, ids) => {
+//     console.log('---', 'comment selector', ids)
 
-    return ids.map((id) => {
-      return comments[id]
-    })
-  })
+//     return ids.map((id) => {
+//       return comments[id]
+//     })
+//   })
