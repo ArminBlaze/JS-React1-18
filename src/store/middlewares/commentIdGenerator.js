@@ -7,14 +7,15 @@ export default	(store) => (next) => (action) => {
 
   console.log('Буду генерировать ID: ', action)
   
-  const comment = action.payload;
+  const comment = {...action.payload};
   const commentId = generateId();
-  console.log(commentId);
 
   comment.id = commentId;
-  console.log(action);
   
-  next(action);
+  next({
+    ...action,
+    payload: comment,
+  });
 }
 
 // Math.random should be unique because of its seeding algorithm.
