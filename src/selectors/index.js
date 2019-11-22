@@ -24,9 +24,8 @@ export const idsSelector = (_, props) => {
 export const arrayOfArticles = createSelector(
   articlesSelector,
   (articlesObj) => {
-    const articlesArr = Object.values(articlesObj);
-    console.log(articlesArr);
-    return articlesArr;
+    // return articlesArr = Object.values(articlesObj);
+    return articlesObj.valueSeq().toArray();
   });
 
 export const filterArticles = createSelector(

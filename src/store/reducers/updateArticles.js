@@ -1,15 +1,14 @@
 import { DELETE_ARTICLE, ADD_COMMENT } from 'constants/index.js'
 import { normalizedArticles } from 'fixtures.js'
 import { articlesSelector } from 'selectors';
+import {arrToMap} from './utils';
+import {Map} from 'immutable';
 
-const defaultArticles = normalizedArticles.reduce(
-  (acc, article) => ({ ...acc, [article.id]: article }),
-  {}
-)
+const defaultArticles = arrToMap(normalizedArticles);
 
 export default (state, action) => {
   if (state === undefined) {
-    return defaultArticles
+    return new Map(defaultArticles)
   }
 
   const oldArticlesState = articlesSelector(state);
@@ -17,9 +16,7 @@ export default (state, action) => {
 
   switch (type) {
     case DELETE_ARTICLE: {
-      const articlesCopy = {...oldArticlesState};
-      delete articlesCopy[payload.id];
-      return articlesCopy;
+      return oldArticlesState.delete(payload.id)
     }
 
     case ADD_COMMENT: {
