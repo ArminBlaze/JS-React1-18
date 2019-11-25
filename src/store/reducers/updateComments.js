@@ -1,8 +1,7 @@
-import {} from 'constants/index.js'
 import { normalizedComments } from 'fixtures.js';
 import { commentsSelector } from 'selectors';
 import { ADD_COMMENT } from 'constants/index.js'
-import {arrToMap} from './utils';
+import { arrToMap } from './utils';
 
 const defaultComments = arrToMap(normalizedComments);
 
@@ -22,17 +21,15 @@ export default (state, action) => {
       //тут код добавления в объект комментов
       // id: {коммент}
       const rawComment = action.payload;
+      const randomId = rawComment.id;
 
       const newComment = {
-        id: rawComment.id,
+        id: randomId,
         user: rawComment.user,
         text: rawComment.text
       }
 
-      return {
-        ...commentsState,
-        [rawComment.id]: newComment
-      }
+      return commentsState.set(randomId, newComment);
     }
 
     default:

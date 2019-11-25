@@ -33,7 +33,7 @@ class Comment extends PureComponent {
 
 const createMapStateToProps = () => (state, ownProps) => {
   const commentSelector = createCommentSelector();
-  
+
   return {
     comment: commentSelector( state, ownProps )
   };

@@ -1,14 +1,22 @@
 import { DELETE_ARTICLE, ADD_COMMENT } from 'constants/index.js'
 import { normalizedArticles } from 'fixtures.js'
 import { articlesSelector } from 'selectors';
-import {arrToMap} from './utils';
-import {Map} from 'immutable';
+import { arrToMap } from './utils';
+import { Record } from 'immutable';
 
-const defaultArticles = arrToMap(normalizedArticles);
+const ArticleRecord = Record({
+  title: null,
+  id: null,
+  text: null,
+  date: null,
+  comments: [],
+})
+
+const defaultArticles = arrToMap(normalizedArticles, ArticleRecord);
 
 export default (state, action) => {
   if (state === undefined) {
-    return new Map(defaultArticles)
+    return defaultArticles;
   }
 
   const oldArticlesState = articlesSelector(state);
@@ -25,17 +33,10 @@ export default (state, action) => {
       const articleId = action.payload.articleId;
       const commentId = action.payload.id;
 
-      const oldArticle = oldArticlesState[articleId];
-
-      const newArticle = {
-        ...oldArticle,
-        comments: (oldArticle.comments || []).concat(commentId)
-      };
-
-      return {
-        ...oldArticlesState,
-        [articleId]: newArticle
-      }
+      return oldArticlesState.updateIn(
+        [articleId, 'comments'],
+        (comments) => comments.concat(commentId)
+      )
     }
 
     default: 

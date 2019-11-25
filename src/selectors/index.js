@@ -75,7 +75,7 @@ export const filterArticles = createSelector(
 export const createCommentSelector = () =>
   createSelector(commentsSelector, idSelector, (comments, id) => {
     console.log('---', 'comment selector', id)
-    return comments[id]
+    return comments.get(id);
   })
 
 //на входе массив id > получаем массив комментариев по этим id
