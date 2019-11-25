@@ -1,4 +1,4 @@
-import { DELETE_ARTICLE, ADD_COMMENT } from 'constants/index.js'
+import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES } from 'constants/index.js'
 import { normalizedArticles } from 'fixtures.js'
 import { articlesSelector } from 'selectors';
 import { arrToMap } from './utils';
@@ -12,11 +12,11 @@ const ArticleRecord = Record({
   comments: [],
 })
 
-const defaultArticles = arrToMap(normalizedArticles, ArticleRecord);
+// const defaultArticles = arrToMap(normalizedArticles, ArticleRecord);
 
 export default (state, action) => {
   if (state === undefined) {
-    return defaultArticles;
+    return arrToMap([], ArticleRecord);
   }
 
   const oldArticlesState = articlesSelector(state);
@@ -37,6 +37,10 @@ export default (state, action) => {
         [articleId, 'comments'],
         (comments) => comments.concat(commentId)
       )
+    }
+
+    case LOAD_ALL_ARTICLES: {
+      return arrToMap(action.response, ArticleRecord);
     }
 
     default: 

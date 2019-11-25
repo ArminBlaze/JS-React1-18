@@ -4,6 +4,7 @@ import accordion from '../decorators/accordion'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { filterArticles } from 'selectors';
+import { loadAllArticles } from 'store/actions/index.js';
 
 export class ArticleList extends Component {
 
@@ -40,6 +41,13 @@ export class ArticleList extends Component {
 
 const ArticleListWithAccordion = accordion(ArticleList)
 
-export default connect((state) => ({
+const mapStateToProps = (state) => ({
   articles: filterArticles(state),
-}))(ArticleListWithAccordion)
+});
+
+const mapDispatchToProps = {
+  fetchData: loadAllArticles,
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleListWithAccordion)

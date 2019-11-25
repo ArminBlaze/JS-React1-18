@@ -1,4 +1,4 @@
-import { DELETE_ARTICLE, INCREMENT, SELECT_ARTICLE, SELECT_DATE, ADD_COMMENT } from 'constants/index.js'
+import { DELETE_ARTICLE, INCREMENT, SELECT_ARTICLE, SELECT_DATE, ADD_COMMENT, LOAD_ALL_ARTICLES } from 'constants/index.js'
 
 export function increment() {
   return {
@@ -32,5 +32,12 @@ export function addComment(comment) {
     type: ADD_COMMENT,
     generateId: true,
     payload: comment 
+  }
+}
+
+export function loadAllArticles() {
+  return {
+    type: LOAD_ALL_ARTICLES,
+    callApi: '/api/article'
   }
 }
