@@ -1,4 +1,4 @@
-import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES, START, SUCCESS, FAIL } from 'constants/index.js'
+import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES, START, SUCCESS, FAIL, LOAD_ARTICLE } from 'constants/index.js'
 import { arrToMap } from './utils';
 import { Record } from 'immutable';
 
@@ -9,6 +9,9 @@ const ArticleRecord = Record({
   text: null,
   date: null,
   comments: [],
+  loading: false,
+  loaded: false,
+  error: null,
 })
 
 const ArticlesStateRecord = Record({
@@ -28,7 +31,7 @@ export default (state, action) => {
 
   //state.articles.data
   const articlesState = state.articles;
-  const { type, payload } = action;
+  const { type, payload, response } = action;
 
   switch (type) {
     case DELETE_ARTICLE: {
@@ -54,9 +57,21 @@ export default (state, action) => {
       
     case LOAD_ALL_ARTICLES + SUCCESS: {
       return articlesState
-        .set('data', arrToMap(action.response, ArticleRecord))
+        .set('data', arrToMap(response, ArticleRecord))
         .set('loading', false)
         .set('loaded', true)
+    }
+
+    case LOAD_ARTICLE + START:
+      return articlesState.setIn(['data', payload, 'loading'], true)
+
+    case LOAD_ARTICLE + SUCCESS: {
+      return articlesState
+        .setIn(
+          ['data', payload],
+          new ArticleRecord(response)
+        )
+        .setIn(['data', payload, 'loaded'], true)
     }
 
     default: 

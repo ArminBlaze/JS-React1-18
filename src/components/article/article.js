@@ -3,7 +3,7 @@ import CommentsList from 'components/CommentsList/CommentsList'
 import CSSTransition from 'react-addons-css-transition-group';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
-import { deleteArticle } from 'store/actions/index.js'
+import { deleteArticle, loadArticleById } from 'store/actions/index.js'
 
 import './article.css';
 
@@ -24,6 +24,15 @@ class Article extends PureComponent {
     console.log('Article');
     console.log(err);
   }
+
+  componentDidUpdate(oldProps) {
+    const { isOpen, article, loadArticleById } = this.props;
+    const {loaded, loading} = article;
+		
+		if( !oldProps.isOpen && isOpen && !loaded && !loading ) {
+      loadArticleById(article.id);
+    } 
+	}
 
 
   render() {
@@ -72,4 +81,9 @@ class Article extends PureComponent {
   }
 }
 
-export default connect(null, {deleteArticle})(Article)
+const mapDispatchToProps = {
+  deleteArticle,
+  loadArticleById
+}
+
+export default connect(null, mapDispatchToProps)(Article)
