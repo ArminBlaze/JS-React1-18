@@ -1,6 +1,6 @@
 import { normalizedComments } from 'fixtures.js';
 import { commentsSelector } from 'selectors';
-import { ADD_COMMENT } from 'constants/index.js'
+import { ADD_COMMENT, START, SUCCESS, FAIL } from 'constants/index.js'
 import { arrToMap } from './utils';
 
 const defaultComments = arrToMap(normalizedComments);
@@ -12,7 +12,7 @@ export default (state, action) => {
     return defaultComments
   }
 
-  const commentsState = commentsSelector(state);
+  const oldCommentsState = state.comments;
 
   const { type } = action
 
@@ -29,10 +29,10 @@ export default (state, action) => {
         text: rawComment.text
       }
 
-      return commentsState.set(randomId, newComment);
+      return oldCommentsState.set(randomId, newComment);
     }
 
     default:
-      return commentsState
+      return oldCommentsState
   }
 }

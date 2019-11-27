@@ -3,8 +3,9 @@ import Article from './article/article'
 import accordion from '../decorators/accordion'
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { filterArticles } from 'selectors';
+import { filterArticles, articlesLoadingSelector } from 'selectors';
 import { loadAllArticles } from 'store/actions/index.js';
+import Loader from 'loaders/loader.js'
 
 export class ArticleList extends Component {
 
@@ -15,6 +16,8 @@ export class ArticleList extends Component {
   }
 
   render() {
+    if(this.props.loading) return <Loader />
+
     return <ul>{this.body}</ul>
   }
 
@@ -43,6 +46,7 @@ const ArticleListWithAccordion = accordion(ArticleList)
 
 const mapStateToProps = (state) => ({
   articles: filterArticles(state),
+  loading: articlesLoadingSelector(state),
 });
 
 const mapDispatchToProps = {

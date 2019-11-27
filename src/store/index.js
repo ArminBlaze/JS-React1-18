@@ -21,4 +21,6 @@ applyMiddleware(commentIdGenerator, api, logger),
 	
 const store = createStore(reducer, enhancer);
 
+window.store = store;
+
 export default store;

@@ -4,15 +4,12 @@ import {createSelector} from 'reselect';
 export const filtersSelector = state => state.filters;
 export const dateRangeSelector = state => state.filters.dateRange;
 export const selectedSelector = state => state.filters.selected;
-export const articlesSelector = state => state.articles;
+export const articlesStateSelector = state => state.articles;
+export const articlesMapSelector = state => state.articles.data;
 export const counterSelector = state => state.counter;
 export const commentsSelector = state => state.comments;
-// export const idSelector = (_, props) => props.id;
-export const idSelector = (_, props) => {
-  console.log(props);
-  
-  return props.id;
-}
+export const idSelector = (_, props) => props.id;
+export const articlesLoadingSelector = state => state.articles.loading;
 
 export const idsSelector = (_, props) => {
   console.log(props);
@@ -22,7 +19,7 @@ export const idsSelector = (_, props) => {
 
 
 export const arrayOfArticles = createSelector(
-  articlesSelector,
+  articlesMapSelector,
   (articlesObj) => {
     // return articlesArr = Object.values(articlesObj);
     return articlesObj.valueSeq().toArray();

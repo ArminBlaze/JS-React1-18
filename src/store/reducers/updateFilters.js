@@ -15,7 +15,8 @@ export default (state, action) => {
     }
   }
 
-  const oldFilters = filtersSelector(state);
+  const oldFiltersState = state.filters;
+  const oldFilters = oldFiltersState;
   const { type, payload } = action;
 
   switch (type) {
@@ -24,7 +25,7 @@ export default (state, action) => {
       const newSelected = generateSelected(oldFilters, payload)
 
       return {
-        ...oldFilters,
+        ...oldFiltersState,
         selected: newSelected,
       }
     }
@@ -33,20 +34,20 @@ export default (state, action) => {
       const newDateRange = generateDate(oldFilters, payload)
 
       return {
-        ...oldFilters,
+        ...oldFiltersState,
         dateRange: newDateRange,
       }
     }
 
     case DELETE_ARTICLE: {
       return {
-        ...oldFilters,
+        ...oldFiltersState,
         selected: (oldFilters.selected && payload.id === oldFilters.selected.value) ? null : oldFilters.selected,
       }
     }
     
     default: 
-      return oldFilters;
+      return oldFiltersState;
   }
 }
 

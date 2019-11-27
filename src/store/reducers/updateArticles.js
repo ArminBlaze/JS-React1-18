@@ -1,8 +1,7 @@
-import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES } from 'constants/index.js'
-import { normalizedArticles } from 'fixtures.js'
-import { articlesSelector } from 'selectors';
+import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES, START, SUCCESS, FAIL } from 'constants/index.js'
 import { arrToMap } from './utils';
 import { Record } from 'immutable';
+
 
 const ArticleRecord = Record({
   title: null,
@@ -12,19 +11,28 @@ const ArticleRecord = Record({
   comments: [],
 })
 
-// const defaultArticles = arrToMap(normalizedArticles, ArticleRecord);
+const ArticlesStateRecord = Record({
+  data: arrToMap([], ArticleRecord),
+  loading: false,
+  loaded: false,
+  error: null,
+});
+
+const defaultArticles = new ArticlesStateRecord();
+
 
 export default (state, action) => {
   if (state === undefined) {
-    return arrToMap([], ArticleRecord);
+    return defaultArticles;
   }
 
-  const oldArticlesState = articlesSelector(state);
+  //state.articles.data
+  const articlesState = state.articles;
   const { type, payload } = action;
 
   switch (type) {
     case DELETE_ARTICLE: {
-      return oldArticlesState.delete(payload.id)
+      return articlesState.deleteIn(['data', payload.id])
     }
 
     case ADD_COMMENT: {
@@ -33,17 +41,25 @@ export default (state, action) => {
       const articleId = action.payload.articleId;
       const commentId = action.payload.id;
 
-      return oldArticlesState.updateIn(
-        [articleId, 'comments'],
+      return articlesState.updateIn(
+        ['data', articleId, 'comments'],
         (comments) => comments.concat(commentId)
       )
     }
 
-    case LOAD_ALL_ARTICLES: {
-      return arrToMap(action.response, ArticleRecord);
+
+    case LOAD_ALL_ARTICLES + START: {
+      return articlesState.set('loading', true);
+    }
+      
+    case LOAD_ALL_ARTICLES + SUCCESS: {
+      return articlesState
+        .set('data', arrToMap(action.response, ArticleRecord))
+        .set('loading', false)
+        .set('loaded', true)
     }
 
     default: 
-      return oldArticlesState;
+      return articlesState;
   }
 }
