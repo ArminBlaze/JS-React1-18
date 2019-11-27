@@ -30,7 +30,7 @@ export class CommentsList extends Component {
 
     const commentForm = <CommentForm articleId={article.id}/>;
 
-    if(!comments) return (
+    if(!comments.length) return (
       <div>
         {commentForm}
         <button className='test__commentsList__btn' disabled>Комментариев нет</button>
