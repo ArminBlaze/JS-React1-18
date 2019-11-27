@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import logger from './middlewares/logger';
 import api from './middlewares/api';
 import commentIdGenerator from './middlewares/commentIdGenerator';
+import thunk from 'redux-thunk';
 	
 import reducer from './reducers';
 
@@ -15,7 +16,7 @@ window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
   }) : compose;
 
 const enhancer = composeEnhancers(
-applyMiddleware(commentIdGenerator, api, logger),
+applyMiddleware(thunk, commentIdGenerator, api, logger),
 // other store enhancers if any
 );
 	

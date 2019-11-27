@@ -1,4 +1,4 @@
-import { DELETE_ARTICLE, INCREMENT, SELECT_ARTICLE, SELECT_DATE, ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE } from 'constants/index.js'
+import { DELETE_ARTICLE, INCREMENT, SELECT_ARTICLE, SELECT_DATE, ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE, START, SUCCESS, FAIL } from 'constants/index.js'
 
 export function increment() {
   return {
@@ -42,10 +42,34 @@ export function loadAllArticles() {
   }
 }
 
+// api-middleware version
+// export function loadArticleById(id) {
+//   return {
+//     type: LOAD_ARTICLE,
+//     payload: id,
+//     callApi: `/api/article/${id}`
+//   }
+// }
+
+// thunk version
 export function loadArticleById(id) {
-  return {
-    type: LOAD_ARTICLE,
-    payload: id,
-    callApi: `/api/article/${id}`
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_ARTICLE + START,
+      payload: id
+    })
+    
+    fetch(`/api/article/${id}`)
+      .then(res => res.json())
+      .then(response => dispatch({
+        type: LOAD_ARTICLE + SUCCESS,
+        payload: id,
+        response
+      }))
+      .catch(error => dispatch({
+        type: LOAD_ARTICLE + FAIL,
+        payload: id,
+        error
+      }))
   }
 }
