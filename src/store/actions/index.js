@@ -1,4 +1,4 @@
-import { DELETE_ARTICLE, INCREMENT, SELECT_ARTICLE, SELECT_DATE, ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE, START, SUCCESS, FAIL } from 'constants/index.js'
+import { DELETE_ARTICLE, INCREMENT, SELECT_ARTICLE, SELECT_DATE, ADD_COMMENT, LOAD_ALL_ARTICLES, LOAD_ARTICLE, START, SUCCESS, FAIL, LOAD_COMMENTS } from 'constants/index.js'
 
 export function increment() {
   return {
@@ -69,6 +69,28 @@ export function loadArticleById(id) {
       .catch(error => dispatch({
         type: LOAD_ARTICLE + FAIL,
         payload: id,
+        error
+      }))
+  }
+}
+
+export function loadCommentsById(articleId) {
+  return (dispatch) => {
+    dispatch({
+      type: LOAD_COMMENTS + START,
+      payload: articleId
+    })
+    
+    fetch(`api/comment?article=${articleId}`)
+      .then(res => res.json())
+      .then(response => dispatch({
+        type: LOAD_COMMENTS + SUCCESS,
+        payload: articleId,
+        response
+      }))
+      .catch(error => dispatch({
+        type: LOAD_COMMENTS + FAIL,
+        payload: articleId,
         error
       }))
   }

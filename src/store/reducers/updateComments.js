@@ -1,9 +1,19 @@
 import { normalizedComments } from 'fixtures.js';
 import { commentsSelector } from 'selectors';
-import { ADD_COMMENT, START, SUCCESS, FAIL } from 'constants/index.js'
+import { ADD_COMMENT, START, SUCCESS, FAIL, LOAD_COMMENTS } from 'constants/index.js'
 import { arrToMap } from './utils';
+import { Record } from 'immutable';
 
-const defaultComments = arrToMap(normalizedComments);
+const articleIdRecord = Record({
+	articleId: null,
+  data: [],
+  loading: false,
+  loaded: false,
+  error: null,
+})
+
+// const defaultComments = new CommentsStateRecord();
+const defaultComments = arrToMap([], articleIdRecord);
 
 export default (state, action) => {
 
@@ -12,15 +22,39 @@ export default (state, action) => {
     return defaultComments
   }
 
-  const oldCommentsState = state.comments;
+  const commentsState = state.comments;
+  const { type, payload, response } = action;
 
-  const { type } = action
 
   switch (type) {
+    case LOAD_COMMENTS + START: {
+      debugger;
+
+      const articleId = payload;
+
+      return commentsState
+              .set(articleId, new articleIdRecord(response))
+              .setIn([articleId, 'loading'], true)
+              .setIn([articleId, 'articleId'], articleId)
+    }
+
+    case LOAD_COMMENTS + SUCCESS: {
+      const articleId = payload;
+      debugger;
+
+      return commentsState
+        .setIn(
+          [articleId, 'data'],
+          arrToMap(response)
+        )
+        .setIn([articleId, 'loading'], false)
+        .setIn([articleId, 'loaded'], true)
+    }
+
     case ADD_COMMENT: {
       //тут код добавления в объект комментов
       // id: {коммент}
-      const rawComment = action.payload;
+      const rawComment = payload;
       const randomId = rawComment.id;
 
       const newComment = {
@@ -29,10 +63,10 @@ export default (state, action) => {
         text: rawComment.text
       }
 
-      return oldCommentsState.set(randomId, newComment);
+      return commentsState.set(randomId, newComment);
     }
 
     default:
-      return oldCommentsState
+      return commentsState
   }
 }
