@@ -1,19 +1,18 @@
-import { normalizedComments } from 'fixtures.js';
-import { commentsSelector } from 'selectors';
 import { ADD_COMMENT, START, SUCCESS, FAIL, LOAD_COMMENTS } from 'constants/index.js'
 import { arrToMap } from './utils';
-import { Record } from 'immutable';
+import { Record, Map } from 'immutable';
 
-const articleIdRecord = Record({
+
+const commentsByIdRecord = Record({
 	articleId: null,
-  data: [],
-  loading: false,
+  data: new Map(),
+  loading: true,
   loaded: false,
   error: null,
-})
+});
 
 // const defaultComments = new CommentsStateRecord();
-const defaultComments = arrToMap([], articleIdRecord);
+const defaultComments = arrToMap([], commentsByIdRecord);
 
 export default (state, action) => {
 
@@ -32,18 +31,18 @@ export default (state, action) => {
 
       const articleId = payload;
 
-      return commentsState
-              .set(articleId, new articleIdRecord(response))
-              .setIn([articleId, 'loading'], true)
-              .setIn([articleId, 'articleId'], articleId)
+      let newState = initArticleRecord(articleId, commentsState);
+
+      return newState
     }
 
     case LOAD_COMMENTS + SUCCESS: {
       const articleId = payload;
+
       debugger;
 
       return commentsState
-        .setIn(
+        .mergeIn(
           [articleId, 'data'],
           arrToMap(response)
         )
@@ -51,11 +50,14 @@ export default (state, action) => {
         .setIn([articleId, 'loaded'], true)
     }
 
+
+    // commentsState = Map {articleId: commentsByIdRecord}
+    // commentsByIdRecord.data = Map {commentId: commentObj}
     case ADD_COMMENT: {
-      //тут код добавления в объект комментов
-      // id: {коммент}
       const rawComment = payload;
       const randomId = rawComment.id;
+      const articleId = rawComment.articleId;
+      
 
       const newComment = {
         id: randomId,
@@ -63,10 +65,24 @@ export default (state, action) => {
         text: rawComment.text
       }
 
-      return commentsState.set(randomId, newComment);
+      let newState = initArticleRecord(articleId, commentsState);
+
+      return newState.setIn([articleId, 'data', randomId], newComment)
     }
 
     default:
       return commentsState
+  }
+}
+
+
+//До загрузки комментариев у нас не создана Record для этой статьи
+function initArticleRecord(articleId, commentsState) {
+  //если нет записи для этой статьи - создаём
+  if(!commentsState.has(articleId)) {
+    return commentsState.set(articleId, new commentsByIdRecord({articleId}))
+  }
+  else {
+    return commentsState;
   }
 }

@@ -27,25 +27,11 @@ export class CommentsList extends Component {
 
   componentDidUpdate(oldProps) {
     const isOpen = this.props.openItemId;
-    
+
     const { article, comments, loadCommentsById } = this.props;
     const articleId = article.id;
-    console.log(article);
-    console.log(comments);
-    
-    //это нужно брать из комментов
-    //при открытии смотрим загружены ли комменты в state.comments.articleId
-    
-
-    //брать из state.comments.articleId
-    //там ничего нет, поэтому нужно загружать
-    // const {loaded, loading} = comments;
-		
-		// if( !oldProps.isOpen && isOpen && !loaded && !loading ) {
-    //   loadArticleById(article.id);
-    // } 
-
-    if(isOpen && !comments && articleId) {
+   
+    if(isOpen && (!comments || !comments.loaded) && articleId) {
       loadCommentsById(articleId);
     }
 	}
@@ -92,7 +78,7 @@ export class CommentsList extends Component {
 
   get body() {
 
-    const {loading, loaded, data} = this.props.comments; 
+    const {loading} = this.props.comments; 
 
     if(loading) return <Loader />
     
@@ -122,12 +108,6 @@ export class CommentsList extends Component {
 
 const CommentsListWithAccordion = accordion(CommentsList);
 
-// const mapStateToProps = (state) => ({
-//   //передаём articleId в селектор и смотрим есть ли там комменты
-//   comments: filterArticles(state),
-//   loading: articlesLoadingSelector(state),
-// });
-
 const createMapStateToProps = () => (state, ownProps) => {
   const commentsSelector = createCommentByIdSelector();
 
@@ -136,11 +116,9 @@ const createMapStateToProps = () => (state, ownProps) => {
   };
 }
 
-
 const mapDispatchToProps = {
   loadCommentsById,
 }
 
-// export default CommentsListWithAccordion;
 export default connect(createMapStateToProps, mapDispatchToProps)(CommentsListWithAccordion);
 
