@@ -45,6 +45,7 @@ class Filters extends React.Component {
             options={this.options}
             value={this.props.selected}
             onChange={this.handleSelect}
+            isMulti
           />
           <button className="link" onClick={this.handleReset}>
               Сброс

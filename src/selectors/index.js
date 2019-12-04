@@ -4,26 +4,24 @@ import {createSelector} from 'reselect';
 export const filtersSelector = state => state.filters;
 export const dateRangeSelector = state => state.filters.dateRange;
 export const selectedSelector = state => state.filters.selected;
-// export const articlesStateSelector = state => state.articles;
 export const articlesMapSelector = state => state.articles.data;
 export const counterSelector = state => state.counter;
-export const commentsSelector = state => state.comments;
-// export const commentsMapSelector = state => state.comments;
+export const commentsMapSelector = state => state.comments;
 export const idSelector = (_, props) => props.id;
 export const articleIdSelector = (_, props) => props.article.id;
 export const articlesLoadingSelector = state => state.articles.loading;
 
-export const idsSelector = (_, props) => {
-  console.log(props);
+// export const idsSelector = (_, props) => {
+//   console.log(props);
   
-  return props.comments;
-}
+//   return props.comments;
+// }
 
 export const arrayOfArticles = createSelector(
   articlesMapSelector,
-  (articlesObj) => {
-    // return articlesArr = Object.values(articlesObj);
-    return articlesObj.valueSeq().toArray();
+  (articlesMap) => {
+    // return articlesArr = Object.values(articlesMap);
+    return articlesMap.valueSeq().toArray();
   });
 
 export const filterArticles = createSelector(
@@ -69,11 +67,11 @@ export const filterArticles = createSelector(
 
 })
 
-// это теперь будет получать не сам коммент, а articleIdRecord.
-// Где комменты будут храниться в articleIdRecord.data
-// И будут свойства loaded, loading
+//Для каждой статьи по айди получает Record с комментариями и доп флагами.
+// В самом Record хранятся loading, loaded, error.
+// А комменты будут храниться в Record.data
 export const createCommentByIdSelector = () =>
-  createSelector(commentsSelector, articleIdSelector, (comments, articleId) => {
+  createSelector(commentsMapSelector, articleIdSelector, (comments, articleId) => {
     console.log('---', 'commentsById selector', articleId)
     return comments.get(articleId);
   })
@@ -86,16 +84,16 @@ export const createCommentByIdSelector = () =>
 
 //на входе 1 id > получаем один комментарий
 export const createCommentSelector = () =>
-  createSelector(commentsSelector, idSelector, articleIdSelector, (comments, id, articleId) => {
+  createSelector(commentsMapSelector, idSelector, articleIdSelector, (comments, id, articleId) => {
     console.log('---', 'comment selector', id, articleId)
     return comments.getIn([articleId, 'data', id]);
   })
 
 //на входе массив id > получаем массив комментариев по этим id
-export const createCommentsSelector = () =>
-  createSelector(commentsSelector, articleIdSelector, (comments, articleId) => {
-    console.log('---', 'comment selector', articleId)
+// export const createCommentsSelector = () =>
+//   createSelector(commentsSelector, articleIdSelector, (comments, articleId) => {
+//     console.log('---', 'comment selector', articleId)
 
-    return comments.get([articleId, 'data'])
+//     return comments.get([articleId, 'data'])
     
-  })
+//   })
