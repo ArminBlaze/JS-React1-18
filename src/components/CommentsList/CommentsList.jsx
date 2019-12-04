@@ -31,7 +31,7 @@ export class CommentsList extends Component {
     const { article, comments, loadCommentsById } = this.props;
     const articleId = article.id;
    
-    if(isOpen && (!comments || !comments.loaded) && articleId) {
+    if( isOpen && (!comments || !comments.loaded) ) {
       loadCommentsById(articleId);
     }
 	}
