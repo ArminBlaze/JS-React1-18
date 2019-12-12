@@ -5,8 +5,18 @@ import { connect } from 'react-redux'
 import { addComment } from 'store/actions/index.js'
 
 
-//добавить форму
-//сделать сбор данных и посылку их в стор. Посмотреть как в article кнопка удалить
+const limits = {
+  name: {
+    min: 3,
+    max: 15
+  },
+  text: {
+    min: 10,
+    max: 500
+  }
+}
+
+
 class CommentForm extends Component {
 
   static propTypes = {
@@ -17,14 +27,59 @@ class CommentForm extends Component {
 
   state = {
     name: '',
-    text: ''
+    text: '',
+    fieldErrors: {
+      nameError: false,
+      textError: false,
+    },
   }
 
+  getClassName = (type) => {
+    console.log(this.state.fieldErrors[type + 'Error']);
+    
+    return (this.state.fieldErrors[type + 'Error'] ? 'form-input__error' : '')
+  }
+  
+
+  isValidField = (type) => {
+    debugger;
+
+    if (this.state[type].length < limits[type].min) {
+      this.setErrorState(type, true)
+    }
+    else {
+      this.setErrorState(type, false)
+    }
+  }
+
+  setErrorState(type, value) {
+    this.setState((state) => {
+      let newState = {...state};
+      newState.fieldErrors = {
+        ...newState.fieldErrors,
+        [type + 'Error']: value,
+      };
+
+      return newState;
+    })
+  }
+
+  isValidForm = () => Object.values(this.state.fieldErrors).every(item => !item)
+  
+
   onChange = (type) => (e) => {
+    const value = e.target.value;
+
+    if (value.length > limits[type].max) return;
+    
 
     this.setState({
-      [type]: e.target.value
+      [type]: value
+    },
+    function() {
+      this.isValidField(type);
     })
+  
   }
   
   onFormSubmit = (e) => {
@@ -53,9 +108,11 @@ class CommentForm extends Component {
         <form className="CommentForm" onSubmit={ this.onFormSubmit }>
           <div className="form-group">
             <label htmlFor="name">Имя</label>
-            <input type="name" className="form-control" id="name" aria-describedby="nameHelp" placeholder="Введите ваше имя" 
+            <input type="name" id="name" aria-describedby="nameHelp"
+            placeholder="Введите ваше имя" 
             required
             value={ this.state.name }
+            className={ this.getClassName('name') } 
             onChange={ this.onChange('name') }
             />
           </div>
@@ -65,11 +122,14 @@ class CommentForm extends Component {
               placeholder="Ваш комментарий к статье" 
               required
               value={ this.state.text } 
+              className={ this.getClassName('text') }
               onChange={ this.onChange('text') }
               ></textarea>
           </div>
           <button type="submit"
-            className="LoginPage__btn btn btn-primary">
+            className="LoginPage__btn btn btn-primary"
+            disabled={!this.isValidForm()}
+            >
               Отправить комментарий
           </button>
         </form>

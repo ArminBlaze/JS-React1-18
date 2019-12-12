@@ -15,3 +15,8 @@
 .form-group {
   margin-bottom: 10px;
 }
+
+.form-input__error {
+  border: 1px solid red;
+  outline: red;
+}
