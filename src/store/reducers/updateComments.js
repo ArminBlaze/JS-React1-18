@@ -27,8 +27,6 @@ export default (state, action) => {
 
   switch (type) {
     case LOAD_COMMENTS + START: {
-      debugger;
-
       const articleId = payload;
 
       let newState = initArticleRecord(articleId, commentsState);
@@ -38,8 +36,6 @@ export default (state, action) => {
 
     case LOAD_COMMENTS + SUCCESS: {
       const articleId = payload;
-
-      debugger;
 
       return commentsState
         .mergeIn(

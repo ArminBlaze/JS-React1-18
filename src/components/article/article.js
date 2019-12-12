@@ -4,6 +4,7 @@ import CSSTransition from 'react-addons-css-transition-group';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { deleteArticle, loadArticleById } from 'store/actions/index.js'
+import { Map } from 'immutable';
 
 import './article.css';
 
@@ -14,7 +15,7 @@ class Article extends PureComponent {
     
     article: PropTypes.shape({
       title: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
+      text: PropTypes.string,
       id: PropTypes.string.isRequired,
       comments: PropTypes.array,
     }),
@@ -42,7 +43,13 @@ class Article extends PureComponent {
     const articleBody = (
       <section className='test__article__body'>
         {article.text}
-        <CommentsList article={article}/>
+        <CommentsList article={article} test={new Map(
+          {
+            0: {peka: "lol", text: 'sam takoi'},
+            1: {rr: "3434", text: 'sam tako!i'},
+          }
+          )}
+        />
       </section>
     )
 

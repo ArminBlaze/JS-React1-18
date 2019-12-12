@@ -1,5 +1,6 @@
 import Comment from 'components/Comment';
 import PropTypes from 'prop-types';
+import iPropTypes from 'react-immutable-proptypes';
 import React, { Component } from 'react';
 import CSSTransition from 'react-addons-css-transition-group';
 import accordion from '../../decorators/accordion';
@@ -14,10 +15,29 @@ import Loader from 'loaders/loader.js'
 export class CommentsList extends Component {
 
   static propTypes = {
+    article: iPropTypes.recordOf({
+      comments: PropTypes.arrayOf(PropTypes.string.isRequired),
+      date: PropTypes.string.isRequired,
+      error: PropTypes.object,
+      id: PropTypes.string.isRequired,
+      loaded: PropTypes.bool.isRequired,
+      loading: PropTypes.bool.isRequired,
+      text: PropTypes.string,
+      title: PropTypes.string.isRequired,
+    }),
+
+    comments: iPropTypes.recordOf({
+      articleId: PropTypes.string.isRequired,
+      error: PropTypes.object,
+      loaded: PropTypes.bool.isRequired,
+      loading: PropTypes.bool.isRequired,
+
+      data: iPropTypes.map,
+    }),
+      
     openItemId: PropTypes.string.isRequired,
+    loadCommentsById: PropTypes.func.isRequired,
     toggleOpenItem: PropTypes.func.isRequired,
-    
-    comments: PropTypes.arrayOf(PropTypes.string)
   }
 
   componentDidCatch(err) {
@@ -30,6 +50,8 @@ export class CommentsList extends Component {
 
     const { article, comments, loadCommentsById } = this.props;
     const articleId = article.id;
+    console.log(comments);
+    
    
     if( isOpen && (!comments || !comments.loaded) ) {
       loadCommentsById(articleId);
@@ -37,6 +59,8 @@ export class CommentsList extends Component {
 	}
 
   render() {
+    console.log('CommentsList PROPS', this.props);
+    
     const isOpen = this.props.openItemId;
 
     const comments = this.props.comments;
