@@ -20,17 +20,11 @@ class CommentForm extends Component {
     text: ''
   }
 
+  onChange = (type) => (e) => {
 
-  onNameChange = (e) => {
-		this.setState({
-      name: e.target.value
-		})
-  }
-  
-  onTextChange = (e) => {
-		this.setState({
-      text: e.target.value
-		})
+    this.setState({
+      [type]: e.target.value
+    })
   }
   
   onFormSubmit = (e) => {
@@ -51,6 +45,9 @@ class CommentForm extends Component {
   }
 
   render() {
+    console.log('CommentForm RENDER');
+    
+
     return (
       <div className="CommentForm__wrapper">
         <form className="CommentForm" onSubmit={ this.onFormSubmit }>
@@ -59,7 +56,7 @@ class CommentForm extends Component {
             <input type="name" className="form-control" id="name" aria-describedby="nameHelp" placeholder="Введите ваше имя" 
             required
             value={ this.state.name }
-            onChange={ this.onNameChange }
+            onChange={ this.onChange('name') }
             />
           </div>
           <div className="form-group">
@@ -68,7 +65,7 @@ class CommentForm extends Component {
               placeholder="Ваш комментарий к статье" 
               required
               value={ this.state.text } 
-              onChange={ this.onTextChange }
+              onChange={ this.onChange('text') }
               ></textarea>
           </div>
           <button type="submit"
