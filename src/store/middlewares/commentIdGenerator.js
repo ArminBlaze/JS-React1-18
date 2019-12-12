@@ -6,11 +6,13 @@ export default	(store) => (next) => (action) => {
   }
 
   console.log('Буду генерировать ID: ', action)
-  
-  const comment = {...action.payload};
-  const commentId = generateId();
 
-  comment.id = commentId;
+  const oldComment = action.payload;
+  
+  const comment = {
+    ...oldComment,
+    id: generateId()
+  };
   
   next({
     ...action,
