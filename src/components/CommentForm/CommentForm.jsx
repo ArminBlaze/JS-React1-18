@@ -39,47 +39,36 @@ class CommentForm extends Component {
     
     return (this.state.fieldErrors[type + 'Error'] ? 'form-input__error' : '')
   }
-  
 
-  isValidField = (type) => {
-    debugger;
-
-    if (this.state[type].length < limits[type].min) {
-      this.setErrorState(type, true)
+  isInvalidField = (type, value) => {
+    if (value.length < limits[type].min) {
+      return true
     }
     else {
-      this.setErrorState(type, false)
+      return false
     }
-  }
-
-  setErrorState(type, value) {
-    this.setState((state) => {
-      let newState = {...state};
-      newState.fieldErrors = {
-        ...newState.fieldErrors,
-        [type + 'Error']: value,
-      };
-
-      return newState;
-    })
   }
 
   isValidForm = () => Object.values(this.state.fieldErrors).every(item => !item)
-  
 
   onChange = (type) => (e) => {
     const value = e.target.value;
 
     if (value.length > limits[type].max) return;
     
+    this.setState((state) => {
+      let newState = {
+        ...state,
+        [type]: value
+      };
 
-    this.setState({
-      [type]: value
-    },
-    function() {
-      this.isValidField(type);
+      newState.fieldErrors = {
+        ...newState.fieldErrors,
+        [type + 'Error']: this.isInvalidField(type, value),
+      };
+
+      return newState;
     })
-  
   }
   
   onFormSubmit = (e) => {
@@ -101,7 +90,6 @@ class CommentForm extends Component {
 
   render() {
     console.log('CommentForm RENDER');
-    
 
     return (
       <div className="CommentForm__wrapper">
