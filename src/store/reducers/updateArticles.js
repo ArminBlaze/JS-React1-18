@@ -1,4 +1,4 @@
-import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES, START, SUCCESS, FAIL, LOAD_ARTICLE } from 'constants/index.js'
+import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES, START, SUCCESS,  LOAD_ARTICLE } from 'constants/index.js'
 import { arrToMap } from './utils';
 import { Record } from 'immutable';
 

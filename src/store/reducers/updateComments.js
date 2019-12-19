@@ -1,4 +1,4 @@
-import { ADD_COMMENT, START, SUCCESS, FAIL, LOAD_COMMENTS } from 'constants/index.js'
+import { ADD_COMMENT, START, SUCCESS, LOAD_COMMENTS } from 'constants/index.js'
 import { arrToMap } from './utils';
 import { Record, Map } from 'immutable';
 
@@ -12,12 +12,14 @@ const commentsByIdRecord = Record({
 });
 
 // const defaultComments = new CommentsStateRecord();
-const defaultComments = arrToMap([], commentsByIdRecord);
+// const defaultComments = arrToMap([], commentsByIdRecord);
+
+const defaultComments = new Map({});
+
 
 export default (state, action) => {
 
   if (state === undefined) {
-    // return defaultArticles;
     return defaultComments
   }
 

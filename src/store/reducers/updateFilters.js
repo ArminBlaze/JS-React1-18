@@ -1,7 +1,6 @@
 import { SELECT_ARTICLE } from 'constants/index.js'
 import { SELECT_DATE } from 'constants/index.js'
 import { DELETE_ARTICLE } from 'constants/index.js'
-import { filtersSelector } from 'selectors';
 
 export default (state, action) => {
   if (state === undefined) {
