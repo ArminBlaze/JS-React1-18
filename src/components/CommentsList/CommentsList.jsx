@@ -58,8 +58,6 @@ export class CommentsList extends Component {
 	}
 
   render() {
-    console.log('CommentsList PROPS', this.props);
-    
     const isOpen = this.props.openItemId;
 
     const {article} = this.props;

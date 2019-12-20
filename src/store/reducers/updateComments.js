@@ -9,7 +9,6 @@ import { Record, Map } from 'immutable';
 // });
 
 // const defaultComments = new CommentsStateRecord();
-// const defaultComments = arrToMap([], commentsByIdRecord);
 
 const defaultComments = new Map({});
 
@@ -29,8 +28,6 @@ export default (state, action) => {
       return commentsState.merge(arrToMap(response))
     }
 
-    // commentsState = Map {articleId: commentsByIdRecord}
-    // commentsByIdRecord.data = Map {commentId: commentObj}
     case ADD_COMMENT: {
       const rawComment = payload;
       const randomId = rawComment.id;

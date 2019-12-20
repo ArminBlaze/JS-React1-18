@@ -88,14 +88,11 @@ export default (state, action) => {
       const articleId = payload;
 
       return articlesState
-        .setIn(
-          ['data', articleId, 'commentsLoading'],
-          false
-        )
-        .setIn(
-          ['data', articleId, 'commentsLoaded'],
-          true
-        )
+        .mergeIn(['data', articleId], {
+          'commentsLoading': false,
+          'commentsLoaded': true,
+        })
+          
     }
 
     default: 

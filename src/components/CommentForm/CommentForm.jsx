@@ -35,8 +35,6 @@ class CommentForm extends Component {
   }
 
   getClassName = (type) => {
-    console.log(this.state.fieldErrors[type + 'Error']);
-    
     return (this.state.fieldErrors[type + 'Error'] ? 'form-input__error' : '')
   }
 
@@ -89,8 +87,6 @@ class CommentForm extends Component {
   }
 
   render() {
-    console.log('CommentForm RENDER');
-
     return (
       <div className="CommentForm__wrapper">
         <form className="CommentForm" onSubmit={ this.onFormSubmit }>
