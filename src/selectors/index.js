@@ -11,11 +11,6 @@ export const idSelector = (_, props) => props.id;
 export const articleIdSelector = (_, props) => props.article.id;
 export const articlesLoadingSelector = state => state.articles.loading;
 
-// export const idsSelector = (_, props) => {
-//   console.log(props);
-  
-//   return props.comments;
-// }
 
 export const arrayOfArticles = createSelector(
   articlesMapSelector,
@@ -67,33 +62,19 @@ export const filterArticles = createSelector(
 
 })
 
-//Для каждой статьи по айди получает Record с комментариями и доп флагами.
-// В самом Record хранятся loading, loaded, error.
-// А комменты будут храниться в Record.data
-export const createCommentByIdSelector = () =>
-  createSelector(commentsMapSelector, articleIdSelector, (comments, articleId) => {
-    console.log('---', 'commentsById selector', articleId)
-    return comments.get(articleId);
+
+export const createCommentsLoadingSelector = () =>
+  createSelector(articlesMapSelector, articleIdSelector, (articles, articleId) => {
+    return articles.getIn([articleId, "commentsLoading"]);
+  })
+  
+export const createCommentsLoadedSelector = () =>
+  createSelector(articlesMapSelector, articleIdSelector, (articles, articleId) => {
+    return articles.getIn([articleId, "commentsLoaded"]);
   })
 
-// export const createCommentsLoadingSelector = () =>
-//   createSelector(commentsSelector, articleIdSelector, (comments, articleId) => {
-//     console.log('---', 'commentsById selector', articleId)
-//     return comments.getIn(articleId).loading;
-//   })
-
-//на входе 1 id > получаем один комментарий
 export const createCommentSelector = () =>
-  createSelector(commentsMapSelector, idSelector, articleIdSelector, (comments, id, articleId) => {
-    console.log('---', 'comment selector', id, articleId)
-    return comments.getIn([articleId, 'data', id]);
+  createSelector(commentsMapSelector, idSelector, (comments, id) => {
+    console.log('---', 'comment selector', id)
+    return comments.getIn([id]);
   })
-
-//на входе массив id > получаем массив комментариев по этим id
-// export const createCommentsSelector = () =>
-//   createSelector(commentsSelector, articleIdSelector, (comments, articleId) => {
-//     console.log('---', 'comment selector', articleId)
-
-//     return comments.get([articleId, 'data'])
-    
-//   })

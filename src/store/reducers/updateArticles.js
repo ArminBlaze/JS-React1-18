@@ -1,4 +1,4 @@
-import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES, START, SUCCESS,  LOAD_ARTICLE } from 'constants/index.js'
+import { DELETE_ARTICLE, ADD_COMMENT, LOAD_ALL_ARTICLES, START, SUCCESS,  LOAD_ARTICLE, LOAD_COMMENTS } from 'constants/index.js'
 import { arrToMap } from './utils';
 import { Record } from 'immutable';
 
@@ -12,6 +12,8 @@ const ArticleRecord = Record({
   loading: false,
   loaded: false,
   error: null,
+  commentsLoading: false,
+  commentsLoaded: false,
 })
 
 const ArticlesStateRecord = Record({
@@ -72,6 +74,28 @@ export default (state, action) => {
           new ArticleRecord(response)
         )
         .setIn(['data', payload, 'loaded'], true)
+    }
+
+    case LOAD_COMMENTS + START: {
+      const articleId = payload;
+
+      return articlesState.setIn(
+        ['data', articleId, 'commentsLoading'],
+        true)
+    }
+
+    case LOAD_COMMENTS + SUCCESS: {
+      const articleId = payload;
+
+      return articlesState
+        .setIn(
+          ['data', articleId, 'commentsLoading'],
+          false
+        )
+        .setIn(
+          ['data', articleId, 'commentsLoaded'],
+          true
+        )
     }
 
     default: 

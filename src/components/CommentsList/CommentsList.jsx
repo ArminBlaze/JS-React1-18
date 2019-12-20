@@ -8,7 +8,7 @@ import './CommentsList.css';
 import CommentForm from 'components/CommentForm/CommentForm'
 import { connect } from 'react-redux'
 import { loadCommentsById } from 'store/actions/index.js'
-import { createCommentByIdSelector } from 'selectors';
+import { createCommentsLoadingSelector, createCommentsLoadedSelector } from 'selectors';
 import Loader from 'loaders/loader.js'
 
 
@@ -48,12 +48,11 @@ export class CommentsList extends Component {
   componentDidUpdate(oldProps) {
     const isOpen = this.props.openItemId;
 
-    const { article, comments, loadCommentsById } = this.props;
+    const { article, loadCommentsById, loading, loaded } = this.props;
     const articleId = article.id;
-    console.log(comments);
     
    
-    if( isOpen && (!comments || !comments.loaded) ) {
+    if( isOpen && !loaded && !loading ) {
       loadCommentsById(articleId);
     }
 	}
@@ -63,8 +62,6 @@ export class CommentsList extends Component {
     
     const isOpen = this.props.openItemId;
 
-    const comments = this.props.comments;
-    
     const {article} = this.props;
     
     const ids = article.comments;
@@ -93,7 +90,7 @@ export class CommentsList extends Component {
             transitionEnterTimeout={500}
             transitionLeaveTimeout={300}
           >
-            {isOpen && comments && this.body}
+            {isOpen && this.body}
           </CSSTransition>
         </ul>
       </div>
@@ -101,13 +98,9 @@ export class CommentsList extends Component {
   }
 
   get body() {
+    const {article, loading, loaded} = this.props; 
 
-    const {loading} = this.props.comments; 
-
-    if(loading) return <Loader />
-    
-    const { article } = this.props;
-    console.log(article);
+    if(loading || !loaded) return <Loader />
     
     const ids = article.comments;
 
@@ -133,10 +126,12 @@ export class CommentsList extends Component {
 const CommentsListWithAccordion = accordion(CommentsList);
 
 const createMapStateToProps = () => (state, ownProps) => {
-  const commentsSelector = createCommentByIdSelector();
+  const commentsLoadingSelector = createCommentsLoadingSelector();
+  const commentsLoadedSelector = createCommentsLoadedSelector();
 
   return {
-    comments: commentsSelector( state, ownProps )
+    loading: commentsLoadingSelector( state, ownProps ),
+    loaded: commentsLoadedSelector( state, ownProps ),
   };
 }
 

@@ -3,13 +3,10 @@ import { arrToMap } from './utils';
 import { Record, Map } from 'immutable';
 
 
-const commentsByIdRecord = Record({
-	articleId: null,
-  data: new Map(),
-  loading: true,
-  loaded: false,
-  error: null,
-});
+// const commentsByIdRecord = Record({
+// 	articleId: null,
+//   data: new Map(),
+// });
 
 // const defaultComments = new CommentsStateRecord();
 // const defaultComments = arrToMap([], commentsByIdRecord);
@@ -28,34 +25,15 @@ export default (state, action) => {
 
 
   switch (type) {
-    case LOAD_COMMENTS + START: {
-      const articleId = payload;
-
-      let newState = initArticleRecord(articleId, commentsState);
-
-      return newState
-    }
-
     case LOAD_COMMENTS + SUCCESS: {
-      const articleId = payload;
-
-      return commentsState
-        .mergeIn(
-          [articleId, 'data'],
-          arrToMap(response)
-        )
-        .setIn([articleId, 'loading'], false)
-        .setIn([articleId, 'loaded'], true)
+      return commentsState.merge(arrToMap(response))
     }
-
 
     // commentsState = Map {articleId: commentsByIdRecord}
     // commentsByIdRecord.data = Map {commentId: commentObj}
     case ADD_COMMENT: {
       const rawComment = payload;
       const randomId = rawComment.id;
-      const articleId = rawComment.articleId;
-      
 
       const newComment = {
         id: randomId,
@@ -63,24 +41,10 @@ export default (state, action) => {
         text: rawComment.text
       }
 
-      let newState = initArticleRecord(articleId, commentsState);
-
-      return newState.setIn([articleId, 'data', randomId], newComment)
+      return commentsState.merge(arrToMap([newComment]))
     }
 
     default:
       return commentsState
-  }
-}
-
-
-//До загрузки комментариев у нас не создана Record для этой статьи
-function initArticleRecord(articleId, commentsState) {
-  //если нет записи для этой статьи - создаём
-  if(!commentsState.has(articleId)) {
-    return commentsState.set(articleId, new commentsByIdRecord({articleId}))
-  }
-  else {
-    return commentsState;
   }
 }
