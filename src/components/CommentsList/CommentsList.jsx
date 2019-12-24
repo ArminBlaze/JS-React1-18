@@ -59,54 +59,54 @@ export class CommentsList extends Component {
 
   render() {
     const isOpen = this.props.openItemId;
-
-    const {article} = this.props;
-    
-    const ids = article.comments;
-
-    const commentForm = <CommentForm articleId={article.id}/>;
-
-    if(!ids.length) return (
-      <div>
-        {commentForm}
-        <button className='test__commentsList__btn' disabled>Комментариев нет</button>
-      </div>
-      )
+    const buttonText = isOpen ? 'Закрыть комментарии' : `Открыть комментарии`;
 
     return (
       <div>
-        {commentForm}
         <button 
           onClick={this.handleBtnClick}
           className='test__commentsList__btn'
         >
-          {isOpen ? 'Закрыть комментарии' : `Открыть комментарии`}
+          {buttonText}
         </button>
-        <ul>
-          <CSSTransition 
-            transitionName='comments'
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={300}
-          >
-            {isOpen && this.body}
-          </CSSTransition>
-        </ul>
+        <CSSTransition 
+          transitionName='comments'
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={300}
+        >
+          {this.body}
+        </CSSTransition>
       </div>
     )
   }
 
   get body() {
+    const isOpen = this.props.openItemId;
     const {article, loading, loaded} = this.props; 
-
-    if(loading || !loaded) return <Loader />
-    
     const ids = article.comments;
+
+    const commentForm = <CommentForm articleId={article.id}/>;
+
+    if(!isOpen) return null;
+    if(loading || !loaded) return <Loader />
+
+    return (
+      <div>
+        {
+          this.getComments(ids, article)
+        }
+        {commentForm}
+      </div>
+    )
+  }
+
+  getComments(ids, article) {
+    if(!ids.length) return 'Комментариев пока нет. Ваш комментарий будет первым.'
 
     return (
       <ul>
         {
           ids.map((id) => (
-            
             <li key={id} className='test__commentsList__item'>
               <Comment id={id} article={article}
               />
