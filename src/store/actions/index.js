@@ -81,7 +81,7 @@ export function loadCommentsById(articleId) {
       payload: articleId
     })
     
-    fetch(`api/comment?article=${articleId}`)
+    fetch(`/api/comment?article=${articleId}`)
       .then(res => res.json())
       .then(response => dispatch({
         type: LOAD_COMMENTS + SUCCESS,
