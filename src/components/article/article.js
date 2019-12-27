@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { deleteArticle, loadArticleById } from 'store/actions/index.js'
 import { Map } from 'immutable';
+import { createArticleSelector } from 'selectors';
 
 import './article.css';
 
@@ -26,19 +27,31 @@ class Article extends PureComponent {
     console.log(err);
   }
 
+  componentDidMount() {
+    const { id, loadArticleById } = this.props;
+    console.log('loadArticleById ID=', id);
+    
+    loadArticleById(id);
+  }
+
   componentDidUpdate(oldProps) {
-    const { isOpen, article, loadArticleById } = this.props;
+    const { isOpen, article, id, loadArticleById } = this.props;
     const {loaded, loading} = article;
+    console.log('loadArticleById ID=', id);
 		
-		if( !oldProps.isOpen && isOpen && !loaded && !loading ) {
-      loadArticleById(article.id);
+		if( !article || (!loaded && !loading) ) {
+      console.log('Запускаю loadArticleById');
+      
+      loadArticleById(id);
     } 
 	}
 
 
   render() {
     // console.log('---', 'rendering')
-    const { article, isOpen } = this.props;
+    const { article } = this.props;
+
+    if(!article) return null;
     
     const articleBody = (
       <section className='test__article__body'>
@@ -57,23 +70,11 @@ class Article extends PureComponent {
       <div>
         <div>
           <h3 ref={this.setTitleRef}>{article.title}</h3>
-          <button 
-            className='test__article__btn'
-            onClick={this.handleBtnClick}
-            >
-            {isOpen ? 'close' : 'open'}
-          </button>
           <button onClick={this.handleDelete}>
             Delete Article
           </button>
         </div>
-        <CSSTransition 
-          transitionName='article'
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={300}
-        >
-          {isOpen && articleBody}
-        </CSSTransition>
+        {articleBody}
       </div>
     )
   }
@@ -88,9 +89,19 @@ class Article extends PureComponent {
   }
 }
 
+const createMapStateToProps = () => (state, ownProps) => {
+  const articleSelector = createArticleSelector();
+
+  return {
+    article: articleSelector( state, ownProps )
+  };
+}
+
 const mapDispatchToProps = {
   deleteArticle,
   loadArticleById
 }
 
-export default connect(null, mapDispatchToProps)(Article)
+export default connect(
+  createMapStateToProps,
+  mapDispatchToProps)(Article)
