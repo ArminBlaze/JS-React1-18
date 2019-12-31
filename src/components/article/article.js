@@ -5,20 +5,25 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { deleteArticle, loadArticleById } from 'store/actions/index.js'
 import { Map } from 'immutable';
-import { createArticleSelector } from 'selectors';
+import { createArticleSelector, articlesLoadedSelector } from 'selectors';
+import Loader from 'loaders/loader.js'
 
 import './article.css';
 
 class Article extends PureComponent {
  
   static propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    
+    id: PropTypes.string.isRequired,
+
     article: PropTypes.shape({
-      title: PropTypes.string.isRequired,
+      title: PropTypes.string,
+      id: PropTypes.string,
       text: PropTypes.string,
-      id: PropTypes.string.isRequired,
+      date: PropTypes.string,
       comments: PropTypes.array,
+      loading: PropTypes.bool.isRequired,
+      loaded: PropTypes.bool,
+      error: PropTypes.bool,
     }),
   }
 
@@ -28,15 +33,22 @@ class Article extends PureComponent {
   }
 
   componentDidMount() {
-    const { id, loadArticleById } = this.props;
+    debugger;
+
+    const { id, loadArticleById, AllArticlesLoaded } = this.props;
     console.log('loadArticleById ID=', id);
+
+    if(!AllArticlesLoaded) return;
+      
     loadArticleById(id);
   }
 
   componentDidUpdate() {
-    const { article, id, loadArticleById } = this.props;
+    const { article, id, loadArticleById, AllArticlesLoaded } = this.props;
     const {loaded, loading} = article;
     console.log('loadArticleById ID=', id);
+
+    if(!AllArticlesLoaded) return;
 		
 		if( !article || (!loaded && !loading) ) {
       console.log('Запускаю loadArticleById');
@@ -48,8 +60,10 @@ class Article extends PureComponent {
   render() {
     // console.log('---', 'rendering')
     const { article } = this.props;
+    debugger;
 
     if(!article) return null;
+    if(article.loading) return <Loader />
     
     const articleBody = (
       <section className='test__article__body'>
@@ -91,7 +105,8 @@ const createMapStateToProps = () => (state, ownProps) => {
   const articleSelector = createArticleSelector();
 
   return {
-    article: articleSelector( state, ownProps )
+    article: articleSelector( state, ownProps ),
+    AllArticlesLoaded: articlesLoadedSelector(state),
   };
 }
 

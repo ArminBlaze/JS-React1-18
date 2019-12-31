@@ -10,6 +10,7 @@ export const commentsMapSelector = state => state.comments;
 export const idSelector = (_, props) => props.id;
 export const articleIdSelector = (_, props) => props.article.id;
 export const articlesLoadingSelector = state => state.articles.loading;
+export const articlesLoadedSelector = state => state.articles.loaded;
 
 
 export const arrayOfArticles = createSelector(
@@ -30,8 +31,6 @@ export const filterArticles = createSelector(
     }
 
     let newArticles = [];
-
-    debugger;
 
     if(selected[0] && selected[0].value) {
       selected.forEach(item => {

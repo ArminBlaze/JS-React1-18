@@ -64,16 +64,19 @@ export default (state, action) => {
         .set('loaded', true)
     }
 
-    case LOAD_ARTICLE + START:
+    case LOAD_ARTICLE + START: {
       return articlesState.setIn(['data', payload, 'loading'], true)
+    }
 
     case LOAD_ARTICLE + SUCCESS: {
       return articlesState
         .setIn(
           ['data', payload],
-          new ArticleRecord(response)
+          new ArticleRecord({
+            ...response,
+            loaded: true
+          })
         )
-        .setIn(['data', payload, 'loaded'], true)
     }
 
     case LOAD_COMMENTS + START: {
