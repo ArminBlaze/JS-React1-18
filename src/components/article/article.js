@@ -30,18 +30,16 @@ class Article extends PureComponent {
   componentDidMount() {
     const { id, loadArticleById } = this.props;
     console.log('loadArticleById ID=', id);
-    
     loadArticleById(id);
   }
 
-  componentDidUpdate(oldProps) {
-    const { isOpen, article, id, loadArticleById } = this.props;
+  componentDidUpdate() {
+    const { article, id, loadArticleById } = this.props;
     const {loaded, loading} = article;
     console.log('loadArticleById ID=', id);
 		
 		if( !article || (!loaded && !loading) ) {
       console.log('Запускаю loadArticleById');
-      
       loadArticleById(id);
     } 
 	}
