@@ -11,7 +11,7 @@ class Filters extends React.Component {
 
   static propTypes = {
     articles: PropTypes.array.isRequired,
-    selected: PropTypes.object,
+    selected: PropTypes.array,
     selectArticle: PropTypes.func.isRequired,
   }
 
@@ -36,6 +36,8 @@ class Filters extends React.Component {
 
   
   render() {
+    console.log(this.props.selected);
+    
 
     return (
       <div>

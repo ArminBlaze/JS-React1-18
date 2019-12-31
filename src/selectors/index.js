@@ -29,12 +29,16 @@ export const filterArticles = createSelector(
       return articles;
     }
 
-    let newArticles;
+    let newArticles = [];
 
-    if(selected && selected.value) {
-      newArticles = articles.filter((article) => {
-        return article.id === selected.value
-      })
+    debugger;
+
+    if(selected[0] && selected[0].value) {
+      selected.forEach(item => {
+        newArticles.push(articles.find((article) => {
+          return article.id === item.value
+        }))
+      });
     } else {
       newArticles = articles.slice();
     }
