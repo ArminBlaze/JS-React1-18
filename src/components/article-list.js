@@ -20,6 +20,8 @@ export class ArticleList extends Component {
   }
 
   get body() {
+    console.log('ArticleList ArticlesMap: ', this.props.articles);
+    
     return this.props.articles.map((article) => (
       <li key={article.id} className='test__articleList__item'>
         <NavLink 

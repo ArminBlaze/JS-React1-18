@@ -33,25 +33,27 @@ class Article extends PureComponent {
   }
 
   componentDidMount() {
-    debugger;
+    // debugger;
+    const { article, id, loadArticleById, AllArticlesLoaded } = this.props;
 
-    const { id, loadArticleById, AllArticlesLoaded } = this.props;
-    console.log('loadArticleById ID=', id);
-
-    if(!AllArticlesLoaded) return;
-      
-    loadArticleById(id);
+    if( !article || (!article.text && !article.loading) ) {
+      console.log('Запускаю loadArticleById в componentDidMount');
+      loadArticleById(id);
+    } 
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    console.log('prevProps:', prevProps, 'newProps:', this.props);
+    
+    
     const { article, id, loadArticleById, AllArticlesLoaded } = this.props;
-    const {loaded, loading} = article;
+    console.log(article);
     console.log('loadArticleById ID=', id);
 
-    if(!AllArticlesLoaded) return;
+    // if(!AllArticlesLoaded) return;
 		
-		if( !article || (!loaded && !loading) ) {
-      console.log('Запускаю loadArticleById');
+		if( !article || (!article.text && !article.loading) ) {
+      console.log('Запускаю loadArticleById в componentDidUpdate');
       loadArticleById(id);
     } 
 	}
@@ -60,7 +62,6 @@ class Article extends PureComponent {
   render() {
     // console.log('---', 'rendering')
     const { article } = this.props;
-    debugger;
 
     if(!article) return null;
     if(article.loading) return <Loader />

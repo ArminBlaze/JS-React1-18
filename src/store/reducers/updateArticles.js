@@ -59,13 +59,27 @@ export default (state, action) => {
       
     case LOAD_ALL_ARTICLES + SUCCESS: {
       return articlesState
-        .set('data', arrToMap(response, ArticleRecord))
-        .set('loading', false)
-        .set('loaded', true)
+        .merge({
+          data: arrToMap(response, ArticleRecord),
+          loading: false,
+          loaded: true
+        })
     }
 
     case LOAD_ARTICLE + START: {
-      return articlesState.setIn(['data', payload, 'loading'], true)
+      // return articlesState.setIn(['data', payload, 'loading'], true)
+      let oldRecord = articlesState.getIn(['data', payload]);
+      if(oldRecord) oldRecord = oldRecord.toObject();
+      console.log('oldRecord', oldRecord);
+      
+
+      return articlesState.mergeIn(
+        ['data', payload],
+        new ArticleRecord({
+          ...oldRecord,
+          loading: true
+        })
+      )
     }
 
     case LOAD_ARTICLE + SUCCESS: {
