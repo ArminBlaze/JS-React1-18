@@ -33,31 +33,21 @@ class Article extends PureComponent {
   }
 
   componentDidMount() {
-    // debugger;
-    const { article, id, loadArticleById, AllArticlesLoaded } = this.props;
-
-    if( !article || (!article.text && !article.loading) ) {
-      console.log('Запускаю loadArticleById в componentDidMount');
-      loadArticleById(id);
-    } 
+    this.getData();
   }
 
   componentDidUpdate(prevProps) {
-    console.log('prevProps:', prevProps, 'newProps:', this.props);
-    
-    
-    const { article, id, loadArticleById, AllArticlesLoaded } = this.props;
-    console.log(article);
-    console.log('loadArticleById ID=', id);
+    this.getData();
+	}
 
-    // if(!AllArticlesLoaded) return;
-		
-		if( !article || (!article.text && !article.loading) ) {
+  getData() {
+    const { article, id, loadArticleById } = this.props;
+
+    if( !article || (!article.text && !article.loading) ) {
       console.log('Запускаю loadArticleById в componentDidUpdate');
       loadArticleById(id);
     } 
-	}
-
+  }
 
   render() {
     // console.log('---', 'rendering')
