@@ -6,7 +6,7 @@ export default (state, action) => {
   if (state === undefined) {
     // return defaultArticles;
     return {
-      selected: null,
+      selected: [],
       dateRange: {
         from: undefined,
         to: undefined,

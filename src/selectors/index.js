@@ -10,6 +10,7 @@ export const commentsMapSelector = state => state.comments;
 export const idSelector = (_, props) => props.id;
 export const articleIdSelector = (_, props) => props.article.id;
 export const articlesLoadingSelector = state => state.articles.loading;
+export const articlesLoadedSelector = state => state.articles.loaded;
 
 
 export const arrayOfArticles = createSelector(
@@ -29,12 +30,14 @@ export const filterArticles = createSelector(
       return articles;
     }
 
-    let newArticles;
+    let newArticles = [];
 
-    if(selected && selected.value) {
-      newArticles = articles.filter((article) => {
-        return article.id === selected.value
-      })
+    if(selected[0] && selected[0].value) {
+      selected.forEach(item => {
+        newArticles.push(articles.find((article) => {
+          return article.id === item.value
+        }))
+      });
     } else {
       newArticles = articles.slice();
     }
@@ -77,4 +80,10 @@ export const createCommentSelector = () =>
   createSelector(commentsMapSelector, idSelector, (comments, id) => {
     console.log('---', 'comment selector', id)
     return comments.getIn([id]);
+  })
+
+export const createArticleSelector = () =>
+  createSelector(articlesMapSelector, idSelector, (articles, id) => {
+    console.log('---', 'comment selector', id)
+    return articles.getIn([id]);
   })

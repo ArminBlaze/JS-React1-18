@@ -5,19 +5,25 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 import { deleteArticle, loadArticleById } from 'store/actions/index.js'
 import { Map } from 'immutable';
+import { createArticleSelector, articlesLoadedSelector } from 'selectors';
+import Loader from 'loaders/loader.js'
 
 import './article.css';
 
 class Article extends PureComponent {
  
   static propTypes = {
-    isOpen: PropTypes.bool.isRequired,
-    
+    id: PropTypes.string.isRequired,
+
     article: PropTypes.shape({
-      title: PropTypes.string.isRequired,
+      title: PropTypes.string,
+      id: PropTypes.string,
       text: PropTypes.string,
-      id: PropTypes.string.isRequired,
+      date: PropTypes.string,
       comments: PropTypes.array,
+      loading: PropTypes.bool.isRequired,
+      loaded: PropTypes.bool,
+      error: PropTypes.bool,
     }),
   }
 
@@ -26,19 +32,30 @@ class Article extends PureComponent {
     console.log(err);
   }
 
-  componentDidUpdate(oldProps) {
-    const { isOpen, article, loadArticleById } = this.props;
-    const {loaded, loading} = article;
-		
-		if( !oldProps.isOpen && isOpen && !loaded && !loading ) {
-      loadArticleById(article.id);
-    } 
-	}
+  componentDidMount() {
+    this.getData();
+  }
 
+  // componentDidUpdate(prevProps) {
+  //   this.getData();
+	// }
+
+  getData() {
+    const { article, id, loadArticleById } = this.props;
+
+    if( !article || (!article.text && !article.loading) ) {
+      loadArticleById(id);
+    } 
+  }
 
   render() {
     // console.log('---', 'rendering')
-    const { article, isOpen } = this.props;
+    const { article } = this.props;
+    console.log("===ARTICLE",article);
+    
+
+    if(!article) return null;
+    if(article.loading) return <Loader />
     
     const articleBody = (
       <section className='test__article__body'>
@@ -57,23 +74,11 @@ class Article extends PureComponent {
       <div>
         <div>
           <h3 ref={this.setTitleRef}>{article.title}</h3>
-          <button 
-            className='test__article__btn'
-            onClick={this.handleBtnClick}
-            >
-            {isOpen ? 'close' : 'open'}
-          </button>
           <button onClick={this.handleDelete}>
             Delete Article
           </button>
         </div>
-        <CSSTransition 
-          transitionName='article'
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={300}
-        >
-          {isOpen && articleBody}
-        </CSSTransition>
+        {articleBody}
       </div>
     )
   }
@@ -88,9 +93,20 @@ class Article extends PureComponent {
   }
 }
 
+const createMapStateToProps = () => (state, ownProps) => {
+  const articleSelector = createArticleSelector();
+
+  return {
+    article: articleSelector( state, ownProps ),
+    AllArticlesLoaded: articlesLoadedSelector(state),
+  };
+}
+
 const mapDispatchToProps = {
   deleteArticle,
   loadArticleById
 }
 
-export default connect(null, mapDispatchToProps)(Article)
+export default connect(
+  createMapStateToProps,
+  mapDispatchToProps)(Article)
