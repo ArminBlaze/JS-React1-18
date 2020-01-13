@@ -58,12 +58,16 @@ export default (state, action) => {
     }
       
     case LOAD_ALL_ARTICLES + SUCCESS: {
+      const oldArticles = articlesState.getIn(['data']) 
+
+      const newArticles = oldArticles.mergeDeepWith((oldVal, newVal) => oldVal, arrToMap(response, ArticleRecord))
+
       return articlesState
-        .merge({
-          data: arrToMap(response, ArticleRecord),
-          loading: false,
-          loaded: true
-        })
+      .merge({
+        data: newArticles,
+        loading: false,
+        loaded: true
+      })
     }
 
     case LOAD_ARTICLE + START: {

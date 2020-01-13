@@ -36,15 +36,14 @@ class Article extends PureComponent {
     this.getData();
   }
 
-  componentDidUpdate(prevProps) {
-    this.getData();
-	}
+  // componentDidUpdate(prevProps) {
+  //   this.getData();
+	// }
 
   getData() {
     const { article, id, loadArticleById } = this.props;
 
     if( !article || (!article.text && !article.loading) ) {
-      console.log('Запускаю loadArticleById в componentDidUpdate');
       loadArticleById(id);
     } 
   }
@@ -52,6 +51,8 @@ class Article extends PureComponent {
   render() {
     // console.log('---', 'rendering')
     const { article } = this.props;
+    console.log("===ARTICLE",article);
+    
 
     if(!article) return null;
     if(article.loading) return <Loader />
