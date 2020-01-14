@@ -1,0 +1,26 @@
+import React, { Component } from 'react';
+import CommentsPage from 'components/CommentsPage';
+import { Route } from 'react-router-dom';
+// import Article from 'components/article/article'
+
+class CommentsRoutes extends Component {
+  static propTypes = {
+    
+  }
+  
+  render() {
+    return (
+      <div>
+        <Route path="/comments/:page" children={this.getPage} />
+      </div>
+      )
+  }
+
+  getPage = ({ match }) => {
+    console.log('CommentsRoutes Match', match);
+    // if(!match) return <CommentsPage page={1} key={1}/>
+    return <CommentsPage page={match.params.page} key={match.params.page}/>
+	}
+}
+
+export default CommentsRoutes;

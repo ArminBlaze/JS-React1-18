@@ -6,8 +6,11 @@ export const dateRangeSelector = state => state.filters.dateRange;
 export const selectedSelector = state => state.filters.selected;
 export const articlesMapSelector = state => state.articles.data;
 export const counterSelector = state => state.counter;
-export const commentsMapSelector = state => state.comments;
+export const commentsMapSelector = state => state.comments.data;
+export const pageMapSelector = state => state.comments.pageMap;
+export const totalComments = state => state.comments.totalComments;
 export const idSelector = (_, props) => props.id;
+export const pageSelector = (_, props) => props.page;
 export const articleIdSelector = (_, props) => props.article.id;
 export const articlesLoadingSelector = state => state.articles.loading;
 export const articlesLoadedSelector = state => state.articles.loaded;
@@ -86,4 +89,19 @@ export const createArticleSelector = () =>
   createSelector(articlesMapSelector, idSelector, (articles, id) => {
     console.log('---', 'comment selector', id)
     return articles.getIn([id]);
+  })
+
+
+export const createFilterCommentsIdsByPage = () =>
+  createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
+    return pageMap.getIn([page, 'ids']);
+  })
+
+export const createCommentsPageLoadingSelector = () =>
+  createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
+    return pageMap.getIn([page, 'loading']);
+  })
+export const createCommentsPageLoadedSelector = () =>
+  createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
+    return pageMap.getIn([page, 'loaded']);
   })

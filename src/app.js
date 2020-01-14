@@ -2,6 +2,7 @@ import Filters from 'components/filters';
 import React, { Component } from 'react';
 // import { findDOMNode } from 'react-dom'
 import ArticlesPage from './components/routes/ArticlesPage';
+import CommentsRoutes from './components/routes/CommentsRoutes';
 // import ArticlesChart from './components/articles-chart'
 import UserForm from './components/user-form';
 import Counter from 'components/counter';
@@ -23,11 +24,15 @@ class App extends Component {
           <NavLink to="/articles" activeStyle={{background: 'black', color: 'white'}} >
             Articles
           </NavLink>
+          <NavLink to="/comments/1" activeStyle={{background: 'black', color: 'white'}} >
+            Comments
+          </NavLink>
         </div>
         <UserForm />
         <Route path="/counter" component={Counter} />
         <Route path="/filters" component={Filters} />
         <Route path="/articles" component={ArticlesPage} />
+        <Route path="/comments/1" component={CommentsRoutes} />
         {/* <ArticlesChart articles={articles} /> */}
       </div>
     )
