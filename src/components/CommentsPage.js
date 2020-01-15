@@ -82,6 +82,33 @@ export class CommentsPage extends Component {
     fetchData && page && fetchData(dataPage)
   }
 
+  // componentDidUpdate(oldProps) {
+  //   const { page, fetchData, loaded } = this.props;
+  //   debugger;
+
+  //   let dataPage = page-1;
+  //   if(dataPage < 0) dataPage = 0;
+  //   fetchData && page && !loaded && fetchData(dataPage)
+  // }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log(nextProps);
+    const { page, fetchData, loading, loaded, ids } = nextProps;
+    
+    debugger;
+
+    if(!loading && !loaded) {
+      let dataPage = page-1;
+      if(dataPage < 0) dataPage = 0;
+      fetchData(dataPage);
+    }
+    if(!ids || !ids.length) {
+      return false;
+    }
+
+    return true;
+  }
+
 }
 
 
