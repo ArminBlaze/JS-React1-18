@@ -18,8 +18,8 @@ class CommentsRoutes extends Component {
 
   getPage = ({ match }) => {
     console.log('CommentsRoutes Match', match);
-    // if(!match) 
-    return <CommentsPage page={+match.params.page} key={+match.params.page}/>
+    // if(!match) return <CommentsPage page={1} key={1}/>
+    return <CommentsPage page={match.params.page} key={match.params.page}/>
 	}
 }
 

@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import Comment from 'components/Comment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createFilterCommentsIdsByPage, createCommentsPageLoadingSelector, createCommentsPageLoadedSelector, totalComments, commentsPerPage } from 'selectors';
+import { createFilterCommentsIdsByPage, createCommentsPageLoadingSelector, createCommentsPageLoadedSelector } from 'selectors';
 import { loadCommentsByPage } from 'store/actions/index.js';
 import Loader from 'loaders/loader.js'
 import { Route, NavLink } from 'react-router-dom';
-import './CommentsPage.css';
 
 export class CommentsPage extends Component {
 
@@ -16,44 +15,18 @@ export class CommentsPage extends Component {
     fetchData: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
     loaded: PropTypes.bool.isRequired,
-    total: PropTypes.number,
   }
 
   render() {
     if(this.props.loading || !this.props.loaded) return <Loader />
 
-    return this.body
+    return <ul>{this.body}</ul>
   }
 
   get body() {
-    return (
-      <div>
-        {this.getComments(this.props.ids)}
-        {this.getPaginator(this.props.total, this.props.commentsPerPage)}
-      </div>
-    )
-  }
-
-  getPaginator(total, commentsPerPage) {
-    const pages = total/commentsPerPage;
-
-    let links = [];
-
-    for (let index = 0; index <= pages; index++) {
-      links.push(
-        <NavLink
-          key={index+1} 
-          className='paginator__link'
-          to={`/comments/${index+1}`} 
-          activeStyle={{background: 'black', color: 'white'}} >
-          {index+1}
-        </NavLink>
-      )
-    }
-
-    return (<div className='paginator'>
-      {links}
-    </div>)
+    
+    
+    return this.getComments(this.props.ids);
   }
 
   getComments(ids) {
@@ -74,11 +47,8 @@ export class CommentsPage extends Component {
   }
 
   componentDidMount() {
-    
     const { page, fetchData } = this.props;
-    let dataPage = page-1;
-    if(dataPage < 0) dataPage = 0;
-    fetchData && page && fetchData(dataPage)
+    fetchData && page && fetchData(page)
   }
 
 }
@@ -100,8 +70,6 @@ const createMapStateToProps = () => (state, props) => {
     ids: idsByPageSelector(state, props),
     loading: commentsLoadingSelector( state, props),
     loaded: commentsLoadedSelector( state, props),
-    total: totalComments(state),
-    commentsPerPage: commentsPerPage(state),
   };
 }
 

@@ -9,7 +9,6 @@ export const counterSelector = state => state.counter;
 export const commentsMapSelector = state => state.comments.data;
 export const pageMapSelector = state => state.comments.pageMap;
 export const totalComments = state => state.comments.totalComments;
-export const commentsPerPage = state => state.comments.commentsPerPage;
 export const idSelector = (_, props) => props.id;
 export const pageSelector = (_, props) => props.page;
 export const articleIdSelector = (_, props) => props.article.id;
@@ -95,17 +94,14 @@ export const createArticleSelector = () =>
 
 export const createFilterCommentsIdsByPage = () =>
   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
-    debugger;
     return pageMap.getIn([page, 'ids']);
   })
 
 export const createCommentsPageLoadingSelector = () =>
   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
-    debugger;
     return pageMap.getIn([page, 'loading']);
   })
 export const createCommentsPageLoadedSelector = () =>
   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
-    debugger;
     return pageMap.getIn([page, 'loaded']);
   })

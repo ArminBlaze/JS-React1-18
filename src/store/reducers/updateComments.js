@@ -14,7 +14,6 @@ const CommentsStateRecord = Record({
   data: new Map({}),
   pageMap: new Map({}),
   totalComments: 0,
-  commentsPerPage: 5,
 });
 
 const PageRecord = Record({
@@ -59,7 +58,7 @@ export default (state, action) => {
     }
 
     case LOAD_COMMENTS_BY_PAGE + START: {
-      const pageNumber = payload+1;
+      const pageNumber = payload;
 
       const newPage = new PageRecord({
         id: pageNumber,
@@ -70,8 +69,7 @@ export default (state, action) => {
     }
 
     case LOAD_COMMENTS_BY_PAGE + SUCCESS: {
-
-      const pageNumber = payload+1;
+      const pageNumber = payload;
 
       console.log(response);
       const total = response.total;

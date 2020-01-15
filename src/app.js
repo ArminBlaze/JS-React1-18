@@ -32,7 +32,7 @@ class App extends Component {
         <Route path="/counter" component={Counter} />
         <Route path="/filters" component={Filters} />
         <Route path="/articles" component={ArticlesPage} />
-        <Route path="/comments/" component={CommentsRoutes} />
+        <Route path="/comments/1" component={CommentsRoutes} />
         {/* <ArticlesChart articles={articles} /> */}
       </div>
     )
