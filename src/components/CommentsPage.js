@@ -20,7 +20,7 @@ export class CommentsPage extends Component {
   }
 
   render() {
-    if(this.props.loading || !this.props.loaded) return <Loader />
+    if(!this.props.total) return <Loader />
 
     return this.body
   }
@@ -57,6 +57,7 @@ export class CommentsPage extends Component {
   }
 
   getComments(ids) {
+    if(this.props.loading || !this.props.loaded) return <Loader />
     if(!ids.length) return 'На этой странице комментариев нет'
 
     return (
