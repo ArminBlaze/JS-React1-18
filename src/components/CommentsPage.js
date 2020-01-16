@@ -76,10 +76,10 @@ export class CommentsPage extends Component {
 
   componentDidMount() {
     
-    const { page, fetchData } = this.props;
+    const { page, fetchData, ids } = this.props;
     let dataPage = page-1;
     if(dataPage < 0) dataPage = 0;
-    fetchData && page && fetchData(dataPage)
+    !ids && fetchData && fetchData(dataPage)
   }
 
 }

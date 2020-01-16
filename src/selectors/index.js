@@ -95,17 +95,14 @@ export const createArticleSelector = () =>
 
 export const createFilterCommentsIdsByPage = () =>
   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
-    debugger;
     return pageMap.getIn([page, 'ids']);
   })
 
 export const createCommentsPageLoadingSelector = () =>
   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
-    debugger;
     return pageMap.getIn([page, 'loading']);
   })
 export const createCommentsPageLoadedSelector = () =>
   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
-    debugger;
     return pageMap.getIn([page, 'loaded']);
   })
