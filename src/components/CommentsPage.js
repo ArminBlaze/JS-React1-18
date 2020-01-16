@@ -11,11 +11,11 @@ import './CommentsPage.css';
 export class CommentsPage extends Component {
 
   static propTypes = {
-    ids: PropTypes.array.isRequired,
+    ids: PropTypes.array,
     page: PropTypes.number.isRequired,
     fetchData: PropTypes.func.isRequired,
-    loading: PropTypes.bool.isRequired,
-    loaded: PropTypes.bool.isRequired,
+    loading: PropTypes.bool,
+    loaded: PropTypes.bool,
     total: PropTypes.number,
   }
 
