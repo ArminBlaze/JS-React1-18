@@ -64,9 +64,7 @@ export const filterArticles = createSelector(
       })
     }
 
-
     return newArticles;
-
 })
 
 
@@ -90,13 +88,6 @@ export const createArticleSelector = () =>
     return articles.getIn([id]);
   })
 
-
-// export const createFilterCommentsIdsByPage = () =>
-//   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
-//     return pageMap.getIn([page, 'ids']);
-//   })
-
-
 export const getCommentsIdsByPage =  createSelector(
   pageSelector, pageMapSelector,
   (page, pageMap) => {
@@ -107,6 +98,7 @@ export const commentsPageLoadingSelector =
   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
     return pageMap.getIn([page, 'loading']);
   })
+
 export const commentsPageLoadedSelector = 
   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
     return pageMap.getIn([page, 'loaded']);

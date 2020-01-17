@@ -6,7 +6,7 @@ import CommentsRoutes from './components/routes/CommentsRoutes';
 // import ArticlesChart from './components/articles-chart'
 import UserForm from './components/user-form';
 import Counter from 'components/counter';
-import { Route, NavLink } from 'react-router-dom';
+import { Route, NavLink, Switch } from 'react-router-dom';
 
 
 class App extends Component {
@@ -15,9 +15,9 @@ class App extends Component {
     return (
       <div>
         <div>
-          <NavLink to="/counter" activeStyle={{background: 'black', color: 'white'}} >
+          {/* <NavLink to="/counter" activeStyle={{background: 'black', color: 'white'}} >
             Counter
-          </NavLink>
+          </NavLink> */}
           <NavLink to="/filters" activeStyle={{background: 'black', color: 'white'}} >
             Filters
           </NavLink>
@@ -30,11 +30,18 @@ class App extends Component {
         </div>
         <UserForm />
         <Counter />
-        {/* <Route path="/counter" component={Counter} /> */}
-        <Route path="/filters" component={Filters} />
-        <Route path="/articles" component={ArticlesPage} />
-        <Route path="/comments/" component={CommentsRoutes} />
         {/* <ArticlesChart articles={articles} /> */}
+        <Switch>
+          <Route path="/counter" component={Counter} exact />
+          <Route path="/filters" component={Filters} />
+          <Route
+            path="/articles/new"
+            render={() => <h1>New Article Page</h1>}
+          />
+          <Route path="/articles" component={ArticlesPage} />
+          <Route path="/comments" component={CommentsRoutes} />
+          <Route path="*" render={() => <h1>Not Found Page</h1>} />
+        </Switch>
       </div>
     )
   }

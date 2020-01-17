@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import CommentsPage from 'components/CommentsPage';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 // import Article from 'components/article/article'
 
 class CommentsRoutes extends Component {
@@ -9,16 +9,22 @@ class CommentsRoutes extends Component {
   }
   
   render() {
-    return (
-      <div>
-        <Route path="/comments/:page" render={this.getPage} />
-      </div>
-      )
+    console.log('CommentsRoutes Component match', this.props.match );
+    
+    return this.props.match.isExact 
+      ? <Redirect to="/comments/1" />
+      : <Route path="/comments/:page" render={this.getPage} />
+      
   }
 
   getPage = ({ match }) => {
     console.log('CommentsRoutes Match', match);
-    return <CommentsPage page={+match.params.page} key={+match.params.page}/>
+
+    const page = +match.params.page;
+
+    return isNaN(page)
+    ? <Redirect to="/comments/1" />
+    : <CommentsPage page={page} key={page}/>
 	}
 }
 
