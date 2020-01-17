@@ -20,12 +20,10 @@ export class CommentsPage extends Component {
   }
 
   render() {
+    console.log('Render CommentsPage');
+    
     if(!this.props.total) return <Loader />
 
-    return this.body
-  }
-
-  get body() {
     return (
       <div>
         {this.getComments(this.props.ids)}

@@ -82,13 +82,11 @@ export const createCommentsLoadedSelector = () =>
 
 export const createCommentSelector = () =>
   createSelector(commentsMapSelector, idSelector, (comments, id) => {
-    console.log('---', 'comment selector', id)
     return comments.getIn([id]);
   })
 
 export const createArticleSelector = () =>
   createSelector(articlesMapSelector, idSelector, (articles, id) => {
-    console.log('---', 'comment selector', id)
     return articles.getIn([id]);
   })
 
