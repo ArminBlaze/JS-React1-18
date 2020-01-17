@@ -91,16 +91,23 @@ export const createArticleSelector = () =>
   })
 
 
-export const createFilterCommentsIdsByPage = () =>
-  createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
-    return pageMap.getIn([page, 'ids']);
-  })
+// export const createFilterCommentsIdsByPage = () =>
+//   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
+//     return pageMap.getIn([page, 'ids']);
+//   })
 
-export const createCommentsPageLoadingSelector = () =>
+
+export const getCommentsIdsByPage =  createSelector(
+  pageSelector, pageMapSelector,
+  (page, pageMap) => {
+  return pageMap.getIn([page, 'ids']);
+}) 
+
+export const commentsPageLoadingSelector =
   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
     return pageMap.getIn([page, 'loading']);
   })
-export const createCommentsPageLoadedSelector = () =>
+export const commentsPageLoadedSelector = 
   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
     return pageMap.getIn([page, 'loaded']);
   })
