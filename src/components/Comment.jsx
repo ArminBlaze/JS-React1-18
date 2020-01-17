@@ -15,6 +15,8 @@ class Comment extends PureComponent {
 
 
   render() {
+    console.log('Render Comment');
+    
     const { text, user } = this.props.comment;
 
     return (

@@ -60,7 +60,9 @@ export default (state, action) => {
     case LOAD_ALL_ARTICLES + SUCCESS: {
       const oldArticles = articlesState.getIn(['data']) 
 
-      const newArticles = oldArticles.mergeDeepWith((oldVal, newVal) => oldVal, arrToMap(response, ArticleRecord))
+      // const newArticles = oldArticles.mergeDeepWith((oldVal, newVal) => oldVal, arrToMap(response, ArticleRecord))
+
+      const newArticles = arrToMap(response, ArticleRecord).merge(oldArticles);
 
       return articlesState
       .merge({
@@ -68,6 +70,19 @@ export default (state, action) => {
         loading: false,
         loaded: true
       })
+
+      // return articlesState
+      //   .update('data', (data) =>
+			// 	  data.mergeDeepWith((oldVal) => oldVal, arrToMap(response, ArticleRecord))
+      //   )
+      //   .set('loading', false)
+      //   .set('loaded', true)
+
+      // return articlesState.update('data', (data) =>
+				  // arrToMap(response, ArticleRecord).merge(data)
+      // )
+      //   .set('loading', false)
+      //   .set('loaded', true)
     }
 
     case LOAD_ARTICLE + START: {

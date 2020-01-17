@@ -11,14 +11,13 @@ class CommentsRoutes extends Component {
   render() {
     return (
       <div>
-        <Route path="/comments/:page" children={this.getPage} />
+        <Route path="/comments/:page" render={this.getPage} />
       </div>
       )
   }
 
   getPage = ({ match }) => {
     console.log('CommentsRoutes Match', match);
-    // if(!match) 
     return <CommentsPage page={+match.params.page} key={+match.params.page}/>
 	}
 }

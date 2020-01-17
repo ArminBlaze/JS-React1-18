@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Comment from 'components/Comment';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createFilterCommentsIdsByPage, createCommentsPageLoadingSelector, createCommentsPageLoadedSelector, totalComments, commentsPerPage } from 'selectors';
+import { getCommentsIdsByPage, commentsPageLoadingSelector, commentsPageLoadedSelector, totalComments, commentsPerPage } from 'selectors';
 import { loadCommentsByPage } from 'store/actions/index.js';
 import Loader from 'loaders/loader.js'
 import { Route, NavLink } from 'react-router-dom';
@@ -20,12 +20,10 @@ export class CommentsPage extends Component {
   }
 
   render() {
+    console.log('Render CommentsPage');
+    
     if(!this.props.total) return <Loader />
 
-    return this.body
-  }
-
-  get body() {
     return (
       <div>
         {this.getComments(this.props.ids)}
@@ -93,14 +91,11 @@ export class CommentsPage extends Component {
 // });
 
 const createMapStateToProps = () => (state, props) => {
-  const idsByPageSelector = createFilterCommentsIdsByPage()
-  const commentsLoadingSelector = createCommentsPageLoadingSelector();
-  const commentsLoadedSelector = createCommentsPageLoadedSelector();
 
   return {
-    ids: idsByPageSelector(state, props),
-    loading: commentsLoadingSelector( state, props),
-    loaded: commentsLoadedSelector( state, props),
+    ids: getCommentsIdsByPage(state, props),
+    loading: commentsPageLoadingSelector( state, props),
+    loaded: commentsPageLoadedSelector( state, props),
     total: totalComments(state),
     commentsPerPage: commentsPerPage(state),
   };

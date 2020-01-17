@@ -29,7 +29,8 @@ class App extends Component {
           </NavLink>
         </div>
         <UserForm />
-        <Route path="/counter" component={Counter} />
+        <Counter />
+        {/* <Route path="/counter" component={Counter} /> */}
         <Route path="/filters" component={Filters} />
         <Route path="/articles" component={ArticlesPage} />
         <Route path="/comments/" component={CommentsRoutes} />

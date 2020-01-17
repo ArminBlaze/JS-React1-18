@@ -82,27 +82,32 @@ export const createCommentsLoadedSelector = () =>
 
 export const createCommentSelector = () =>
   createSelector(commentsMapSelector, idSelector, (comments, id) => {
-    console.log('---', 'comment selector', id)
     return comments.getIn([id]);
   })
 
 export const createArticleSelector = () =>
   createSelector(articlesMapSelector, idSelector, (articles, id) => {
-    console.log('---', 'comment selector', id)
     return articles.getIn([id]);
   })
 
 
-export const createFilterCommentsIdsByPage = () =>
-  createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
-    return pageMap.getIn([page, 'ids']);
-  })
+// export const createFilterCommentsIdsByPage = () =>
+//   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
+//     return pageMap.getIn([page, 'ids']);
+//   })
 
-export const createCommentsPageLoadingSelector = () =>
+
+export const getCommentsIdsByPage =  createSelector(
+  pageSelector, pageMapSelector,
+  (page, pageMap) => {
+  return pageMap.getIn([page, 'ids']);
+}) 
+
+export const commentsPageLoadingSelector =
   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
     return pageMap.getIn([page, 'loading']);
   })
-export const createCommentsPageLoadedSelector = () =>
+export const commentsPageLoadedSelector = 
   createSelector(pageSelector, pageMapSelector, (page, pageMap) => {
     return pageMap.getIn([page, 'loaded']);
   })
