@@ -6,7 +6,7 @@ import CommentsRoutes from './components/routes/CommentsRoutes';
 // import ArticlesChart from './components/articles-chart'
 import UserForm from './components/user-form';
 import Counter from 'components/counter';
-import { Route, NavLink, Switch } from 'react-router-dom';
+import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
 
 
 class App extends Component {
@@ -32,6 +32,7 @@ class App extends Component {
         <Counter />
         {/* <ArticlesChart articles={articles} /> */}
         <Switch>
+          <Redirect from="/" to="/articles" exact />
           <Route path="/counter" component={Counter} exact />
           <Route path="/filters" component={Filters} />
           <Route
