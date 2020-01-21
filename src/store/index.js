@@ -3,8 +3,11 @@ import logger from './middlewares/logger';
 import api from './middlewares/api';
 import commentIdGenerator from './middlewares/commentIdGenerator';
 import thunk from 'redux-thunk';
+import { connectRouter } from 'connected-react-router'
+import history from '../history.js'
 	
-import reducer from './reducers';
+import createRootReducer from './reducers';
+// import reducer from './reducers';
 
 // const enhancer = applyMiddleware(logger);
 
@@ -19,8 +22,11 @@ const enhancer = composeEnhancers(
 applyMiddleware(thunk, commentIdGenerator, api, logger),
 // other store enhancers if any
 );
-	
-const store = createStore(reducer, enhancer);
+
+// const historyReducer = connectRouter(history)(reducer);
+// const store = createStore(historyReducer, enhancer);
+// const historyReducer = connectRouter(history)(reducer);
+const store = createStore(createRootReducer(history), enhancer)
 
 window.store = store;
 

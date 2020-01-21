@@ -2,7 +2,8 @@ import updateArticles from './updateArticles';
 import updateFilters from './updateFilters';
 import updateCounter from './updateCounter';
 import updateComments from './updateComments';
-
+import { combineReducers } from 'redux'
+import { connectRouter } from 'connected-react-router'
 
 const reducer = (state, action) => {
   return {
@@ -13,5 +14,11 @@ const reducer = (state, action) => {
   }
 }
 
+const createRootReducer = (history) => (state, action) => {
+  return {
+    ...reducer(state, action),
+    ...combineReducers({router: connectRouter(history)})(state, action)
+  }
+}
 
-export default reducer;
+export default createRootReducer
