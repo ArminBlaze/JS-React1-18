@@ -14,7 +14,7 @@ export default (state, action) => {
     }
   }
 
-  const oldFiltersState = state;
+  const oldFiltersState = state.filters;
   const oldFilters = oldFiltersState;
   const { type, payload } = action;
 

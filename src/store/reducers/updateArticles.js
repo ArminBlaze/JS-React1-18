@@ -32,7 +32,7 @@ export default (state, action) => {
   }
 
   //state.articles.data
-  const articlesState = state;
+  const articlesState = state.articles;
   const { type, payload, response } = action;
 
   switch (type) {

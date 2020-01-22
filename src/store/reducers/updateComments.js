@@ -36,7 +36,7 @@ export default (state, action) => {
     return defaultComments
   }
 
-  const commentsState = state;
+  const commentsState = state.comments;
   const { type, payload, response } = action;
 
 
