@@ -23,9 +23,6 @@ applyMiddleware(thunk, commentIdGenerator, api, logger),
 // other store enhancers if any
 );
 
-// const historyReducer = connectRouter(history)(reducer);
-// const store = createStore(historyReducer, enhancer);
-// const historyReducer = connectRouter(history)(reducer);
 const store = createStore(createRootReducer(history), enhancer)
 
 window.store = store;
