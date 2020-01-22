@@ -15,14 +15,14 @@ const reducer = (state, action) => {
 }
 
 const createRootReducer = (history) => {
-  const routerReducer = combineReducers({
-    router: connectRouter(history),
-  })
+  // const routerReducer = combineReducers({
+  //   router: connectRouter(history),
+  // })
 
   return (state, action) => {
     return {
-      ...routerReducer(state, action),
       ...reducer(state, action),
+      router: connectRouter(history)(state && state.router, action),
     }
   }
 } 
