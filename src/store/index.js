@@ -5,6 +5,7 @@ import commentIdGenerator from './middlewares/commentIdGenerator';
 import thunk from 'redux-thunk';
 import { connectRouter } from 'connected-react-router'
 import history from '../history.js'
+import { routerMiddleware } from 'connected-react-router'
 	
 import createRootReducer from './reducers';
 // import reducer from './reducers';
@@ -19,7 +20,7 @@ window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
   }) : compose;
 
 const enhancer = composeEnhancers(
-applyMiddleware(thunk, commentIdGenerator, api, logger),
+applyMiddleware(thunk, routerMiddleware(history), commentIdGenerator, api, logger),
 // other store enhancers if any
 );
 
