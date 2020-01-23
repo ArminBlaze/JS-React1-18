@@ -7,6 +7,7 @@ import CommentsRoutes from './components/routes/CommentsRoutes';
 import UserForm from './components/user-form';
 import Counter from 'components/counter';
 import { Route, NavLink, Switch, Redirect } from 'react-router-dom';
+import {Menu, MenuItem} from 'components/menu/index'
 
 
 class App extends Component {
@@ -14,10 +15,10 @@ class App extends Component {
   render() {
     return (
       <div>
-        <div>
-          {/* <NavLink to="/counter" activeStyle={{background: 'black', color: 'white'}} >
+        {/* <div>
+          { <NavLink to="/counter" activeStyle={{background: 'black', color: 'white'}} >
             Counter
-          </NavLink> */}
+          </NavLink> }
           <NavLink to="/filters" activeStyle={{background: 'black', color: 'white'}} >
             Filters
           </NavLink>
@@ -27,7 +28,13 @@ class App extends Component {
           <NavLink to="/comments/1" activeStyle={{background: 'black', color: 'white'}} >
             Comments
           </NavLink>
-        </div>
+        </div> */}
+        <Menu>
+          <MenuItem path="/filters">Filters</MenuItem>
+          <MenuItem path="/articles">Articles</MenuItem>
+          <MenuItem path="/comments/1">Comments</MenuItem>
+        </Menu>
+
         <UserForm />
         <Counter />
         {/* <ArticlesChart articles={articles} /> */}
@@ -41,6 +48,8 @@ class App extends Component {
           />
           <Route path="/articles" component={ArticlesPage} />
           <Route path="/comments" component={CommentsRoutes} />
+
+          <Route path="/error" render={() => <h1>Error Page</h1>} />
           <Route path="*" render={() => <h1>Not Found Page</h1>} />
         </Switch>
       </div>
