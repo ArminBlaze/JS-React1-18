@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 import { loadCommentsById } from 'store/actions/index.js'
 import { createCommentsLoadingSelector, createCommentsLoadedSelector } from 'selectors';
 import Loader from 'loaders/loader.js'
+import {Consumer as UserConsumer} from 'context/user'
 
 
 export class CommentsList extends Component {
@@ -63,6 +64,7 @@ export class CommentsList extends Component {
 
     return (
       <div>
+        <h3> Username: <UserConsumer>{(user) => user}</UserConsumer></h3>
         <button 
           onClick={this.handleBtnClick}
           className='test__commentsList__btn'

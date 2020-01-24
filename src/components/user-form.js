@@ -1,25 +1,23 @@
 import React, { Component } from 'react'
+import {Consumer as LangConsumer} from 'context/lang'
 
 class UserForm extends Component {
-  state = {
-    username: ''
-  }
 
   render() {
     return (
-      <div>
-        Username:
-        <input value={this.state.username} onChange={this.handleUserChange} />
-      </div>
+      <LangConsumer>{(getText) => (
+        <div>
+          {getText('username') + ': '}
+          <input value={this.props.username} onChange={this.handleUserChange} />
+        </div>
+      )}</LangConsumer>
     )
   }
 
   handleUserChange = (ev) => {
-    if (ev.target.value.length > 10) return this.setState({ username: '' })
+    // if (ev.target.value.length > 10) return this.setState({ username: '' })
 
-    this.setState({
-      username: ev.target.value
-    })
+    this.props.onChange( ev.target.value )
   }
 }
 
