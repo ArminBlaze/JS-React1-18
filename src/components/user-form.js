@@ -1,16 +1,17 @@
 import React, { Component } from 'react'
-import {Consumer as LangConsumer} from 'context/lang'
+// import {Consumer as LangConsumer} from 'context/lang'
+import withLangConsumer from 'hoc/withLangConsumer'
 
 class UserForm extends Component {
 
   render() {
+    const {getText} = this.props;
+
     return (
-      <LangConsumer>{(getText) => (
-        <div>
-          {getText('username') + ': '}
-          <input value={this.props.username} onChange={this.handleUserChange} />
-        </div>
-      )}</LangConsumer>
+      <div>
+        {getText('username') + ': '}
+        <input value={this.props.username} onChange={this.handleUserChange} />
+      </div>
     )
   }
 
@@ -21,4 +22,4 @@ class UserForm extends Component {
   }
 }
 
-export default UserForm
+export default withLangConsumer(UserForm)
