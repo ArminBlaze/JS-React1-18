@@ -18,14 +18,13 @@ class LangMenu extends Component {
     )
   }
 
-  get selected() {
-    console.log(this.props.langOption);
-
+  componentDidMount() {
     if(!this.props.langOption) {
       this.handleSelect(this.options[0])
-      return this.options[0];
     } 
-    
+  }
+
+  get selected() {
     return this.props.langOption
   }
 
