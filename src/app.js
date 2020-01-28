@@ -25,14 +25,19 @@ class App extends Component {
   }
 
   handleLangChange = (langOption) => {
-    this.setState({langOption, lang: langOption.value})
+    this.setState({
+      langOption,
+      lang: langOption.value
+    })
   }
 
   getLangText = (selector) => {
-    return lex[selector][this.state.lang]
+    return lex[selector][this.state.lang] || selector;
   }
 
   render() {
+    const getText = this.getLangText;
+
     return (
       <div>
         <LangProvider value={this.getLangText} >
@@ -41,9 +46,9 @@ class App extends Component {
 
           <UserProvider value={this.state.username} >
             <Menu>
-              <MenuItem path="/filters">Filters</MenuItem>
-              <MenuItem path="/articles">Articles</MenuItem>
-              <MenuItem path="/comments/1">Comments</MenuItem>
+              <MenuItem path="/filters">{getText('filters')}</MenuItem>
+              <MenuItem path="/articles">{getText('articles')}</MenuItem>
+              <MenuItem path="/comments/1">{getText('comments')}</MenuItem>
             </Menu>
 
             <Counter />
