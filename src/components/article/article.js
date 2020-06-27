@@ -85,7 +85,7 @@ class Article extends PureComponent {
 
   // setTitleRef = (titleRef) => console.log(titleRef)
 
-  handleBtnClick = () => this.props.toggleOpen(this.props.article.id)
+  // handleBtnClick = () => this.props.toggleOpen(this.props.article.id)
 
   handleDelete = () => {
     const { article, deleteArticle } = this.props;
